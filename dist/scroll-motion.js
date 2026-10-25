@@ -1,4 +1,4 @@
-/* One-shot, compositor-friendly reveals. Native scrolling remains in control. */
+/* One-shot section reveals and optional smooth wheel scrolling. */
 (() => {
   'use strict';
   const preference=matchMedia('(prefers-reduced-motion: reduce)');
@@ -6,6 +6,17 @@
   const selector='.section-head,.service-card,.step,.web-order-panel,.together-item,.app-reminder,.faq-layout>div:first-child,.faq details,.footer-grid>div,.footer-bottom,.page-intro,.editorial-copy,.app-copy,.partner-story,.form-side,.store-card,.menu-card,.order-card,.service-layout>section,.story-section,.page-value,.story-card,.journey-row,.request-prep,.guide-faq>div:first-child,.page-next,.partner-hero-copy,.partner-value,.partner-section-heading,.partner-journey>li,.partner-prep,.partner-interest';
   let observer,headerObserver,ambientObserver,scope,seen=new WeakSet(),opened=false;
   const pending=new Set(),animations=new Set(),loading=new Set();
+  const finePointer=matchMedia('(pointer: fine)');
+  let smoothScroll;
+  function configureScrolling(){
+    smoothScroll?.destroy();smoothScroll=null;
+    if(preference.matches||!finePointer.matches||!window.Lenis)return;
+    smoothScroll=new window.Lenis({autoRaf:true,lerp:.13,smoothWheel:true,syncTouch:false,
+      prevent:node=>node.matches?.('dialog,.navlinks,.theme-panel,textarea,select,[data-native-scroll]')||false});
+  }
+  configureScrolling();
+  finePointer.addEventListener('change',configureScrolling);
+  addEventListener('hashchange',()=>smoothScroll?.scrollTo(0,{immediate:true,force:true}));
   function animate(node,frames,options){
     if(!node||preference.matches||!node.isConnected||!node.animate)return;
     const animation=node.animate(frames,{easing:ease,...options});
@@ -16,8 +27,14 @@
   function reveal(node,immediate=false){
     observer?.unobserve(node);pending.delete(node);node.dataset.motionState='entered';
     if(immediate||preference.matches)return;
-    // Content stays readable throughout scrolling; motion is a small one-shot settle.
-    animate(node,[{opacity:.94,translate:'0 4px'},{opacity:1,translate:'0 0'}],{duration:320});
+    const compact=innerWidth<768;
+    const group=node.closest('.photo-services,.steps,.store-grid,.menu-grid,.footer-grid,.partner-value-grid,.partner-journey');
+    const index=group?Math.max(0,[...group.children].indexOf(node)):0;
+    const delay=(index%(compact?2:3))*(compact?35:55);
+    animate(node,[{opacity:0,translate:`0 ${compact?14:22}px`},{opacity:1,translate:'0 0'}],{duration:compact?580:740,delay,fill:'backwards'});
+    const photo=node.querySelector('.service-photo img,.store-photo img,.web-order-preview>img');
+    if(photo?.complete&&photo.naturalWidth)animate(photo,[{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:900,delay});
+    if(node.matches('.app-reminder'))node.dataset.motionAccent='play';
   }
   function prepareImages(root){
     root.querySelectorAll('.service-photo img,.store-photo img,.web-order-preview>img,.partner-story>img,.intro-scene>img,.story-card>img,.journey-image>img,.menu-product-image>img,.partner-photo img').forEach(img=>{
@@ -27,7 +44,7 @@
       const finish=()=>{
         host.classList.remove('media-loading');loading.delete(host);img.dataset.motionImage='ready';
         const rect=img.getBoundingClientRect();
-        if(img.naturalWidth&&rect.bottom>0&&rect.top<innerHeight)animate(img,[{opacity:.9},{opacity:1}],{duration:220});
+        if(img.naturalWidth&&rect.bottom>0&&rect.top<innerHeight)animate(img,[{opacity:.35},{opacity:1}],{duration:480});
       };
       img.addEventListener('load',finish,{once:true,signal:scope.signal});
       img.addEventListener('error',finish,{once:true,signal:scope.signal});
@@ -67,7 +84,9 @@
     if(opened||!hero||scrollY>40||preference.matches)return;
     opened=true;
     // Reveal the complete UI immediately; never fade the phone chassis or its contents.
-    animate(hero.querySelector('.hero-content'),[{translate:'0 4px'},{translate:'0 0'}],{duration:360});
+    ['.hero-content>.eyebrow','.hero-content h1','.hero-description','.download-badges','.hero-web-entry'].forEach((query,index)=>{
+      animate(hero.querySelector(query),[{opacity:.8,translate:'0 8px'},{opacity:1,translate:'0 0'}],{duration:620,delay:index*45,fill:'backwards'});
+    });
   }
 
   function cleanup(){
@@ -83,7 +102,7 @@
     if(!preference.matches&&'IntersectionObserver' in window){
       observer=new IntersectionObserver(entries=>{
         entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.04)reveal(entry.target)});
-      },{threshold:.04,rootMargin:'0px 0px 140px 0px'});
+      },{threshold:.04,rootMargin:'0px 0px 40px 0px'});
     }else observer=null;
     if(!preference.matches&&'IntersectionObserver' in window){
       ambientObserver=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.dataset.inView=String(entry.isIntersecting)),{threshold:.1});
@@ -99,7 +118,13 @@
       const node=event.target.closest('[data-motion-state="pending"]');if(node)reveal(node,true);
     },{signal:scope.signal});
     refresh(root);if(options.opening)opening();
+    requestAnimationFrame(()=>{smoothScroll?.resize();smoothScroll?.scrollTo(scrollY,{immediate:true,force:true})});
   }
-  preference.addEventListener('change',()=>mount(document));
-  window.CartmanMotion={mount,refresh};
+  preference.addEventListener('change',()=>{configureScrolling();mount(document)});
+  function scrollToElement(target){
+    if(!target)return;
+    if(smoothScroll)smoothScroll.scrollTo(target,{offset:0,lerp:0,duration:1.05});
+    else target.scrollIntoView({behavior:preference.matches?'instant':'smooth',block:'start'});
+  }
+  window.CartmanMotion={mount,refresh,scrollTo:scrollToElement};
 })();

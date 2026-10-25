@@ -71,3 +71,5 @@ Run `npm ci` and `npm run build` to validate and produce the optimized static si
 Run `npx vercel --prod` after signing in. `vercel.json` configures the static build output and asset cache headers. The landing page and independent `order.html` demo are both included. First-time visitors see Dark mode; saved White/Dark preferences remain respected. The ordering system is still a browser-local demo.
 
 To inspect the production build locally in PowerShell, set `$env:STATIC_DIR='build'` and `$env:PORT='4180'`, then run `node server.mjs`.
+
+Motion uses a self-hosted Lenis 1.3.27 browser build on marketing pages for fine-pointer wheel input. Touch scrolling and the ordering app remain native. Reduced-motion preferences disable smoothing and reveal effects. The vendored MIT license is in dist/assets/vendor/lenis-LICENSE.txt; update that browser build alongside the npm dependency.

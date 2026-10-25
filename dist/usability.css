@@ -168,12 +168,12 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
 
 /* Mobile review: readable content, reachable services and short, visible feedback. */
 @media(max-width:767px){
- html{scroll-padding-top:84px}
+ html{scroll-padding-top:0}
  .ui-variant :is(input,select,textarea):not([type="checkbox"]):not([type="radio"]){font-size:16px}
  .ui-variant :is(input,select):not([type="checkbox"]):not([type="radio"]){min-height:48px}
  .ui-variant textarea{min-height:120px}
  .ui-variant :is(.check,.checkbox-label){min-height:44px;align-items:center}
- .ui-variant [data-motion-state="pending"]{opacity:1}
+ .ui-variant [data-motion-state="pending"]{opacity:0}
  #header .navlinks.open{max-height:calc(100dvh - 76px - env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain;padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
  #header .navlinks.open a{min-height:48px;display:flex;align-items:center;padding-block:10px}
  .ui-variant .theme-panel{position:fixed;top:80px;right:12px;width:min(305px,calc(100vw - 24px));max-height:calc(100dvh - 96px);overflow:auto}

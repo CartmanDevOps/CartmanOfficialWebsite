@@ -1,7 +1,7 @@
 /* Shared motion: short, interruptible and limited to transforms/opacity. */
 :root{--motion-ease:cubic-bezier(.2,.75,.25,1);--motion-fast:180ms;--motion-page:320ms}
 #motion-scroll-sentinel{position:absolute;top:24px;left:0;width:1px;height:1px;pointer-events:none;opacity:0}
-[data-motion-state="pending"]{opacity:1}
+[data-motion-state="pending"]{opacity:0}
 #header{transition:box-shadow 320ms ease,background-color 240ms ease}
 .has-scrolled #header,.has-scrolled .topbar{box-shadow:0 8px 28px #173b2414}
 @media(prefers-reduced-motion:no-preference){
@@ -53,3 +53,9 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 }
 @keyframes launch-glow{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*:before,*:after{animation:none!important;transition:none!important}[data-motion-state="pending"]{opacity:1}.media-loading{background-image:none}body:before{display:none}}
+
+/* Lenis uses the root's native scroll position; touch and nested UI stay native. */
+html.lenis,html.lenis body{height:auto}
+html.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis [data-lenis-prevent]{overscroll-behavior:contain}
+@media(prefers-reduced-motion:reduce){.ui-variant [data-motion-state="pending"]{opacity:1!important}}

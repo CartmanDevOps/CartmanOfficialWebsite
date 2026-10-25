@@ -367,7 +367,7 @@ function refineMotion(route){window.CartmanMotion?.mount(document,{opening:route
 
 function bind(route,params) {
   bindFaqMotion();
-  document.querySelectorAll("[data-partner-start]").forEach(button=>button.onclick=()=>{const form=document.querySelector(".partner-interest");form?.focus({preventScroll:true});form?.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth",block:"start"});});
+  document.querySelectorAll("[data-partner-start]").forEach(button=>button.onclick=()=>{const form=document.querySelector(".partner-interest");form?.focus({preventScroll:true});window.CartmanMotion?.scrollTo(form);});
   bindBase(route,params);
   refineMotion(route);
   if($('#location-form'))$('#location-form').onsubmit=e=>{e.preventDefault();save('cartman-location',new FormData(e.target).get('location').trim());location.hash='/services';toast('Explore services for your day. Live coverage will be confirmed at launch.')};
