@@ -60,10 +60,25 @@
       node.dataset.motionState='pending';pending.add(node);observer.observe(node);
     });
   }
+  function brandIntro(){
+    if(preference.matches||scrollY>40)return;
+    try{if(sessionStorage.getItem('cartman-intro-seen'))return;sessionStorage.setItem('cartman-intro-seen','1')}catch{/* Animation remains optional when storage is unavailable. */}
+    const intro=document.createElement('div');
+    intro.className='brand-intro';intro.setAttribute('aria-hidden','true');
+    intro.innerHTML='<div class="brand-intro-lockup"><div class="brand-intro-orbit"><i></i><img src="assets/brand/icon-dark.webp" width="80" height="80" alt=""></div><strong>CARTMAN<span>PH</span></strong><p>EVERYTHING. <span>DELIVERED.</span></p><div class="brand-intro-track"><i></i></div></div>';
+    document.body.append(intro);
+    const controls=new AbortController();
+    const animation=intro.animate([{opacity:0},{opacity:1,offset:.1},{opacity:1,offset:.58},{opacity:0}],{duration:1050,easing:'ease-in-out',fill:'forwards'});
+    const dismiss=()=>{animation.cancel();intro.remove();controls.abort()};
+    animation.finished.then(dismiss).catch(()=>{intro.remove();controls.abort()});
+    for(const event of ['pointerdown','keydown','wheel','touchstart','pagehide'])addEventListener(event,dismiss,{once:true,passive:true,signal:controls.signal});
+    preference.addEventListener('change',dismiss,{once:true,signal:controls.signal});
+  }
   function opening(){
     const hero=document.querySelector('.campaign-hero');
     if(opened||!hero||scrollY>40||preference.matches)return;
     opened=true;
+    brandIntro();
     const steps=[['.hero-content>.eyebrow',0,8],['.hero-content h1',65,18],['.hero-description',145,12],['.download-badges',210,10],['.hero-web-entry',270,8]];
     for(const [query,delay,y] of steps)animate(hero.querySelector(query),[{opacity:.12,translate:`0 ${y}px`},{opacity:1,translate:'0 0'}],{duration:760,delay,fill:'backwards'});
     // Opacity only: protected faces, branding and device bounds never drift or zoom.

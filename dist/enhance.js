@@ -270,6 +270,7 @@ function slideshow() {
   ];
   slide=0;
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
+  const slideDuration=4000;
   let paused=motion.matches, revision=0, countdown;
   const hero=$('.campaign-hero'), heroImage=$('#hero-image');
   const mobileMedia=matchMedia('(max-width:767px)');
@@ -306,14 +307,14 @@ function slideshow() {
     document.querySelectorAll('[data-slide]').forEach((b,i)=>{b.classList.toggle('active',i===slide);b.setAttribute('aria-pressed',String(i===slide))});
     if(!motion.matches){
       [phone.querySelector('.phone-view'),$('#campaign-description')].forEach(node=>{
-        node.animate([{opacity:.25},{opacity:1}],{duration:420,easing:'cubic-bezier(.2,.7,.2,1)'});
+        node.animate([{opacity:.25},{opacity:1}],{duration:280,easing:'cubic-bezier(.2,.7,.2,1)'});
       });
       animateScreen();
       // Keep the previous photo visible until its replacement has decoded.
       heroImage.decode().catch(()=>{}).then(()=>{
         if(current!==revision||!hero.isConnected){outgoing?.remove();return}
         if(motion.matches){outgoing?.remove();return}
-        const fade=outgoing.animate([{opacity:1},{opacity:0}],{duration:650,easing:'ease-in-out',fill:'forwards'});
+        const fade=outgoing.animate([{opacity:1},{opacity:0}],{duration:380,easing:'ease-in-out',fill:'forwards'});
         fade.finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
       });
     }
@@ -322,8 +323,8 @@ function slideshow() {
     clearInterval(slideTimer);countdown?.cancel();
     if(!paused&&!document.hidden){
       const bar=hero.querySelector('[data-slide].active .slide-duration');
-      if(!motion.matches)countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:8500,fill:'forwards'});
-      slideTimer=setInterval(()=>{show(slide+1);start()},8500);
+      if(!motion.matches)countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:slideDuration,fill:'forwards'});
+      slideTimer=setInterval(()=>{show(slide+1);start()},slideDuration);
     }
   }
   function animateScreen(){
