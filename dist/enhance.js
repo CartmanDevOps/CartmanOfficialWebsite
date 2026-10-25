@@ -102,6 +102,26 @@ function appPhone(extra='') {
 
 function heroInspiration(){return `<aside class="hero-inspiration" aria-label="A little inspiration"><span class="eyebrow">A LITTLE INSPIRATION</span><h2>What’s on your list?</h2>${[['chicken','A familiar favorite','Chicken & rice','order.html#/store/jollibee'],['latte','A well-earned break','Coffee & merienda','order.html#/store/kape'],['rice','A few things to pick up','Plan multiple errands','order.html#/service/multi']].map(([id,kicker,title,href])=>`<a href="${href}" target="_blank" rel="noopener"><img src="assets/menu/${id}.webp" width="80" height="80" alt="" loading="lazy" decoding="async"><span><small>${kicker}</small><strong>${title}</strong></span>${icon('arrow')}</a>`).join('')}<p>Explore sample menus and services in the web demo.</p></aside>`}
 function bookingChecklist(){return `<div class="booking-checklist"><span class="eyebrow">BEFORE YOU BOOK</span><h3>A few details. A smoother request.</h3><ul>${['Your pickup and destination addresses','Items, parcel details, or passenger count','Helpful landmarks and delivery notes'].map(t=>`<li>${icon('check')}<span>${t}</span></li>`).join('')}</ul><a class="textlink" href="#/how-it-works">See how it works ${icon('arrow')}</a></div>`}
+function commercialSection(){
+ return `<section class="section commercial-section" aria-labelledby="commercial-heading"><div class="wrap commercial-layout"><div class="commercial-copy"><div class="eyebrow">A DAY WITH CARTMAN</div><h2 id="commercial-heading">More life.<br><span>Fewer errands.</span></h2><p>From a favorite meal to the next stop. A glimpse of the everyday connections we’re building for Philippine neighborhoods.</p><ul class="commercial-services"><li>${icon('food')}Meals & essentials</li><li>${icon('bag')}Pabili & pickups</li><li>${icon('bike')}Rides with LIFT</li></ul><a class="textlink" href="#/services">Find your everyday service ${icon('arrow')}</a></div><div class="commercial-film"><div class="commercial-stage"><video id="cartman-commercial" playsinline preload="none" poster="assets/delivery-hero-v2.webp" aria-label="Cartman PH: More life, fewer errands" aria-describedby="commercial-description" data-video-src="assets/video/cartman-neighborhood.mp4"></video><button class="commercial-play" type="button" aria-controls="cartman-commercial" aria-label="Play the Cartman PH commercial"><span class="commercial-play-icon" aria-hidden="true">▶</span><span><strong>Watch a day with Cartman</strong><small>15-second brand film</small></span></button><p class="commercial-error" role="status" hidden>The film couldn’t load. <button type="button">Try again</button></p></div><div class="commercial-caption"><span>EVERYTHING. DELIVERED.</span><span>Made for your neighborhood</span></div><p id="commercial-description" class="commercial-note">AI-generated brand concept · Coming-soon services. Food delivery, neighborhood pickups, and Cartman LIFT.</p></div></div></section>`;
+}
+function bindCommercial(){
+ const video=$('#cartman-commercial');if(!video)return;
+ const stage=video.parentElement,button=stage.querySelector('.commercial-play'),error=stage.querySelector('.commercial-error');
+ const play=()=>{
+  error.hidden=true;button.hidden=true;video.controls=true;
+  if(!video.getAttribute('src'))video.src=matchMedia('(max-width:767px)').matches?'assets/video/cartman-neighborhood-mobile.mp4':video.dataset.videoSrc;
+  else if(video.error)video.load();
+  video.setAttribute('tabindex','0');video.focus({preventScroll:true});
+  video.play().catch(()=>{if(!video.isConnected)return;button.hidden=false;video.controls=false;error.hidden=false;});
+ };
+ button.onclick=play;error.querySelector('button').onclick=play;
+ video.addEventListener('error',()=>{if(!video.isConnected)return;button.hidden=false;video.controls=false;error.hidden=false;});
+ const stop=()=>{if(document.hidden)video.pause()};
+ const observer=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)video.pause()});observer.observe(video);
+ bindCommercial.dispose=()=>{video.pause();observer.disconnect();document.removeEventListener('visibilitychange',stop)};
+ document.addEventListener('visibilitychange',stop);
+}
 function home() {
   return `<section class="campaign-hero" data-scene="0" aria-label="Cartman campaign" aria-roledescription="carousel">
     <picture class="hero-picture"><source id="hero-mobile" media="(max-width:767px)" srcset="assets/rider-mobile-v2.webp" width="900" height="1350"><img class="hero-backdrop" id="hero-image" src="${media.hero}" alt="A Cartman PH rider in a black branded uniform on his scooter" width="1672" height="941" fetchpriority="high"></picture>
@@ -114,6 +134,7 @@ function home() {
     <div class="wrap campaign-bottom"><span id="campaign-label">01 / MORE LIFE. FEWER ERRANDS.</span><div class="campaign-controls" role="group" aria-label="Slideshow navigation"><div class="dots">${[0,1,2].map(i=>`<button data-slide="${i}" class="${i===0?'active':''}" aria-label="Show campaign ${i+1}" aria-pressed="${i===0}"></button>`).join('')}</div><button class="campaign-next" data-direction="1" aria-label="Next campaign">${icon('arrow')}</button></div></div>
   </section>
   <section class="section service-section"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Your everyday, all in one place</div><h2>Deliveries. Rides. <span>Errands.</span></h2></div><a class="textlink" href="#/services">Explore all services ${icon('arrow')}</a></div>${serviceCardView()}</div></section>
+  ${commercialSection()}
   <section class="section web-order-section"><div class="wrap web-order-panel"><div><div class="eyebrow">YOUR CARTMAN. YOUR WAY.</div><h2>No app? No problem.<br><span>Your neighborhood is online.</span></h2><p>Order meals and essentials, send a parcel, plan errands, or try a Cartman LIFT ride in the web demo.</p><a class="btn" href="order.html" target="_blank" rel="noopener">Open the ordering app ${icon('arrow')}</a><small>New tab · Interactive demo · No real orders or payments</small></div><div class="web-order-preview"><div class="browser-chrome"><i></i><i></i><i></i><span>cartman · order online</span></div><img src="assets/filipino-comfort-food.webp" alt="Filipino comfort food for your next favorite meal" width="800" height="520" loading="lazy"><div class="web-preview-caption"><strong>A little closer to your favorites.</strong><span>Food · Essentials · Parcels · Errands · LIFT</span></div></div></div></section><section class="together-band"><div class="wrap together-grid"><h2>Good things<br><span>move together.</span></h2><div class="together-item">${icon('shop')}<div><h3>Grow with Cartman PH</h3><p>Bring your local business<br>closer to more doorsteps.</p><a href="#/partners?type=merchant" class="btn white">Become a merchant ${icon('arrow')}</a></div></div><div class="together-item">${icon('bike')}<div><h3>Deliver. Ride. Connect.</h3><p>Explore delivery, errand, and<br>LIFT partnership opportunities.</p><a href="#/partners?type=rider" class="btn white">Ride with Cartman ${icon('arrow')}</a></div></div></div></section>
   <section class="section steps-section"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Simple from the start</div><h2>From your first tap <span>to your next stop.</span></h2></div><p>One order, ride, or errand.<br>Three simple steps.</p></div>${stepsView()}</div></section>
   <section class="section app-reminder-section" aria-labelledby="app-launch-heading"><div class="wrap"><div class="app-reminder"><div class="app-launch-icon" aria-hidden="true">${mark}</div><div class="app-launch-copy"><div class="app-launch-meta"><span>THE CARTMAN APP</span><span class="app-launch-status">Coming soon</span></div><h2 id="app-launch-heading">Everything you need. Right in your pocket.</h2><p>Food, essentials, parcels, errands, and LIFT. Coming to iPhone and Android.</p></div><a class="btn" href="#/waitlist">Get launch updates ${icon('arrow')}</a></div></div></section>
@@ -400,6 +421,7 @@ function slideshow() {
 function refineMotion(route){window.CartmanMotion?.mount(document,{opening:route==='/'})}
 
 function bind(route,params) {
+  bindCommercial.dispose?.();bindCommercial.dispose=null;bindCommercial();
   bindFaqMotion();
   document.querySelectorAll("[data-partner-start]").forEach(button=>button.onclick=()=>{const form=document.querySelector(".partner-interest");form?.focus({preventScroll:true});window.CartmanMotion?.scrollTo(form);});
   bindBase(route,params);

@@ -2,10 +2,11 @@ import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { gzipSync } from 'node:zlib';
 import path from 'node:path';
+import { createReadStream } from 'node:fs';
 
 const root = path.resolve(process.env.STATIC_DIR || 'dist');
 const port = Number(process.env.PORT || 4173);
-const types = {html:'text/html; charset=utf-8',css:'text/css; charset=utf-8',js:'text/javascript; charset=utf-8',json:'application/json',webmanifest:'application/manifest+json',png:'image/png',webp:'image/webp',svg:'image/svg+xml',woff2:'font/woff2'};
+const types = {html:'text/html; charset=utf-8',css:'text/css; charset=utf-8',js:'text/javascript; charset=utf-8',json:'application/json',webmanifest:'application/manifest+json',png:'image/png',webp:'image/webp',svg:'image/svg+xml',woff2:'font/woff2',mp4:'video/mp4',webm:'video/webm',vtt:'text/vtt; charset=utf-8'};
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -31,6 +32,24 @@ const server = http.createServer(async (req, res) => {
     if (req.headers['if-none-match'] === etag) {
       res.writeHead(304);
       return res.end();
+    }
+    if (['mp4','webm'].includes(extension)) {
+      res.setHeader('Accept-Ranges','bytes');
+      const range=req.headers.range;
+      let start=0,end=info.size-1;
+      if(range){
+        const match=/^bytes=(\d*)-(\d*)$/.exec(range);
+        if(!match||(!match[1]&&!match[2])){res.writeHead(416,{'Content-Range':`bytes */${info.size}`});return res.end()}
+        if(!match[1])start=Math.max(0,info.size-Number(match[2]));
+        else{start=Number(match[1]);if(match[2])end=Math.min(end,Number(match[2]))}
+        if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||start>end||start>=info.size){res.writeHead(416,{'Content-Range':`bytes */${info.size}`});return res.end()}
+        res.statusCode=206;res.setHeader('Content-Range',`bytes ${start}-${end}/${info.size}`);
+      }
+      res.setHeader('Content-Length',end-start+1);
+      if(req.method==='HEAD')return res.end();
+      const stream=createReadStream(file,{start,end});
+      stream.on('error',()=>res.destroy());res.on('close',()=>stream.destroy());
+      return stream.pipe(res);
     }
     if (req.method === 'HEAD') return res.end();
     const data = await readFile(file);
