@@ -210,16 +210,16 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
  .ui-variant .order-site .basket-item small{font-size:12px}
 }
 @media(max-width:560px){
- .photo-services{grid-template-columns:1fr;gap:12px}
- .photo-services .service-card{display:grid;grid-template-columns:108px minmax(0,1fr);align-items:stretch;min-width:0;min-height:150px}
- .photo-services .service-photo{width:108px;aspect-ratio:auto;height:100%;min-height:150px;border-radius:0}
+ .photo-services{grid-template-columns:1fr;gap:10px}
+ .photo-services .service-card{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:center;gap:14px;padding:14px;min-width:0;min-height:128px;border-radius:16px}
+ .photo-services .service-photo{width:112px;aspect-ratio:3/2;height:auto;min-height:0;border-radius:10px;background:var(--ui-soft);overflow:hidden}
  .photo-services .service-photo>img{object-fit:contain}
- .photo-services .service-number{top:8px;left:8px;font-size:10px}
- .photo-services .service-card-body{padding:16px 14px;min-width:0}
+ .photo-services .service-number{display:none}
+ .photo-services .service-card-body{padding:0;min-width:0}
  .photo-services .service-card-title{gap:8px;flex-wrap:nowrap;align-items:flex-start}
  .photo-services .service-card-title h3{font-size:17px;line-height:1.3;letter-spacing:-.3px}
- .photo-services .service-card-title .round-arrow{width:26px;height:26px;flex:0 0 26px}
- .photo-services .service-card-body p{font-size:14px;line-height:1.55;margin-top:9px}
+ .photo-services .service-card-title .round-arrow{display:none}
+ .photo-services .service-card-body p{font-size:14px;line-height:1.5;margin:7px 0 0}
  .ui-variant .order-site .service-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow:visible;padding-bottom:0}
  .ui-variant .order-site .service-tabs button{display:flex;flex-direction:row;justify-content:flex-start;text-align:left;font-size:13px;line-height:1.35;min-height:52px;padding:10px 12px;gap:9px;min-width:0}
  .ui-variant .order-site .service-tabs button svg{width:21px;height:21px;flex-shrink:0}
@@ -235,9 +235,9 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
  .campaign-hero .download-badge strong{font-size:14px}
  .campaign-hero .download-badge svg{width:19px}
  .campaign-hero .download-badge small{font-size:8px}
- .photo-services .service-card{grid-template-columns:90px minmax(0,1fr)}
- .photo-services .service-photo{width:90px}
- .photo-services .service-card-body{padding:14px 12px}
+ .photo-services .service-card{grid-template-columns:88px minmax(0,1fr);gap:12px;padding:12px;min-height:120px}
+ .photo-services .service-photo{width:88px}
+ .photo-services .service-card-body{padding:0}
  .photo-services .service-card-title h3{font-size:16px}
  .photo-services .service-card-title .round-arrow{display:none}
  .ui-variant .order-site .service-tabs button{padding-inline:10px;font-size:12px}

@@ -9,7 +9,7 @@ const media = {
   multi: 'assets/multi-errands-v2.webp'
 };
 const serviceNames = {food:'Food & drinks',grocery:'Everyday essentials',parcel:'Parcels',errands:'Pabili & errands',lift:'Cartman LIFT',multi:'Multi-stop errands'};
-const catalogServices=[...services,{name:'Cartman LIFT',key:'bike',color:'lift',copy:'Get around your neighborhood with Cartman LIFT motorcycle and tricycle rides.',alt:'A Cartman LIFT scooter and covered Philippine sidecar tricycle'},{name:'Multi-stop errands',key:'bolt',color:'multi',copy:'Combine shopping, pickups, and drop-offs in one multi-stop request.',alt:'Bakery bread, groceries, a parcel and documents gathered for multiple errands'}];
+const catalogServices=[...services,{name:'Cartman LIFT',key:'bike',color:'lift',copy:'Motorcycle and tricycle rides around your neighborhood.',alt:'A Cartman LIFT scooter and covered Philippine sidecar tricycle'},{name:'Multi-stop errands',key:'bolt',color:'multi',copy:'Shopping, pickups, and drop-offs in one request.',alt:'Bakery bread, groceries, a parcel and documents gathered for multiple errands'}];
 const money = value => new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP',maximumFractionDigits:0}).format(value);
 const demoNotice = text => `<div class="notice">${icon('shield')}<span>${text}</span></div>`;
 
