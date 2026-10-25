@@ -62,15 +62,17 @@
   }
   function brandIntro(){
     if(preference.matches||scrollY>40)return;
-    try{if(sessionStorage.getItem('cartman-intro-seen'))return;sessionStorage.setItem('cartman-intro-seen','1')}catch{/* Animation remains optional when storage is unavailable. */}
+    try{if(sessionStorage.getItem('cartman-intro-seen-v2'))return;sessionStorage.setItem('cartman-intro-seen-v2','1')}catch{/* Animation remains optional when storage is unavailable. */}
     const intro=document.createElement('div');
     intro.className='brand-intro';intro.setAttribute('aria-hidden','true');
-    intro.innerHTML='<div class="brand-intro-lockup"><div class="brand-intro-orbit"><i></i><img src="assets/brand/icon-dark.webp" width="80" height="80" alt=""></div><strong>CARTMAN<span>PH</span></strong><p>EVERYTHING. <span>DELIVERED.</span></p><div class="brand-intro-track"><i></i></div></div>';
+    intro.innerHTML='<div class="brand-intro-lockup"><span class="brand-intro-prelude">YOUR DAY IS ABOUT TO MOVE.</span><div class="brand-intro-orbit"><svg viewBox="0 0 140 140" class="brand-intro-route"><circle cx="70" cy="70" r="62" pathLength="1"/></svg><i></i><img src="assets/brand/icon-dark.webp" width="80" height="80" alt=""></div><strong>CARTMAN<span>PH</span></strong><p>EVERYTHING. <span>DELIVERED.</span></p><span class="brand-intro-services">DELIVERIES <i>·</i> LIFT <i>·</i> ERRANDS</span></div>';
     document.body.append(intro);
+    document.dispatchEvent(new Event('cartman-intro-change'));
     const controls=new AbortController();
-    const animation=intro.animate([{opacity:0},{opacity:1,offset:.1},{opacity:1,offset:.58},{opacity:0}],{duration:1050,easing:'ease-in-out',fill:'forwards'});
-    const dismiss=()=>{animation.cancel();intro.remove();controls.abort()};
-    animation.finished.then(dismiss).catch(()=>{intro.remove();controls.abort()});
+    const animation=intro.animate([{opacity:1},{opacity:1,offset:.81},{opacity:0}],{duration:2600,easing:'ease-in-out',fill:'forwards'});
+    let dismissed=false;
+    const dismiss=()=>{if(dismissed)return;dismissed=true;intro.remove();controls.abort();animation.cancel();document.dispatchEvent(new Event('cartman-intro-change'))};
+    animation.finished.then(dismiss).catch(dismiss);
     for(const event of ['pointerdown','keydown','wheel','touchstart','pagehide'])addEventListener(event,dismiss,{once:true,passive:true,signal:controls.signal});
     preference.addEventListener('change',dismiss,{once:true,signal:controls.signal});
   }

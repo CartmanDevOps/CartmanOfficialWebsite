@@ -321,7 +321,7 @@ function slideshow() {
   }
   function start(){
     clearInterval(slideTimer);countdown?.cancel();
-    if(!paused&&!hovering&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected){
+    if(!paused&&!hovering&&!hero.querySelector(':focus-visible')&&!document.querySelector('.brand-intro')&&!document.hidden&&hero.isConnected){
       const bar=hero.querySelector('[data-slide].active .slide-duration');
       if(!motion.matches)countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:slideDuration,fill:'forwards'});
       slideTimer=setInterval(()=>{show(slide+1);start()},slideDuration);
@@ -356,6 +356,9 @@ function slideshow() {
   document.onvisibilitychange=()=>{if($('#hero-image'))start();else clearInterval(slideTimer)};
   document.querySelectorAll('[data-slide]').forEach(b=>b.innerHTML='<span class="slide-duration" aria-hidden="true"></span>');
   motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()});
+  slideshow.introEvents?.abort();
+  slideshow.introEvents=new AbortController();
+  document.addEventListener('cartman-intro-change',start,{signal:slideshow.introEvents.signal});
   animateScreen();start();
 }
 
