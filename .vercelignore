@@ -5,4 +5,3 @@ source-assets
 node_modules
 build
 README.md
-server.mjs
