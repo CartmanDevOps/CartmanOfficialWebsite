@@ -7,10 +7,22 @@
   let observer,headerObserver,ambientObserver,scope,seen=new WeakSet(),opened=false;
   const pending=new Set(),animations=new Set(),loading=new Set();
   const finePointer=matchMedia('(pointer: fine)');
-  let smoothScroll;
+  let smoothScroll,lenisLoading;
   function configureScrolling(){
     smoothScroll?.destroy();smoothScroll=null;
-    if(preference.matches||!finePointer.matches||!window.Lenis)return;
+    document.documentElement.dataset.scrollMode='native';
+    if(preference.matches||!finePointer.matches||document.body.classList.contains('order-site'))return;
+    if(!window.Lenis){
+      document.documentElement.dataset.scrollMode='loading-wheel';
+      if(!lenisLoading)lenisLoading=new Promise((resolve,reject)=>{
+        const script=document.createElement('script');script.src=new URL('assets/vendor/lenis-1.3.27.min.js',document.baseURI).href;script.async=true;
+        script.onload=()=>{if(typeof window.Lenis==='function')resolve();else{script.remove();reject(new Error('Scroll library is not supported'))}};
+        script.onerror=()=>{script.remove();reject(new Error('Scroll library could not load'))};document.head.append(script);
+      })
+        .then(()=>{lenisLoading=null;configureScrolling()}).catch(error=>{lenisLoading=null;document.documentElement.dataset.scrollMode='native-fallback';console.warn('Optional wheel smoothing unavailable:',error.message)});
+      return;
+    }
+    document.documentElement.dataset.scrollMode='smooth-wheel';
     smoothScroll=new window.Lenis({autoRaf:true,lerp:.13,smoothWheel:true,syncTouch:false,
       prevent:node=>node.matches?.('dialog,.navlinks,.theme-panel,textarea,select,[data-native-scroll]')||false});
   }
@@ -62,22 +74,6 @@
       if(rect.width===0||rect.height===0||rect.bottom<=0||rect.top<innerHeight-8){node.dataset.motionState='entered';return;}
       node.dataset.motionState='pending';pending.add(node);observer.observe(node);
     });
-  }
-  function brandIntro(){
-    if(preference.matches||scrollY>40)return;
-    try{if(sessionStorage.getItem('cartman-intro-seen-v2'))return;sessionStorage.setItem('cartman-intro-seen-v2','1')}catch{/* Animation remains optional when storage is unavailable. */}
-    const intro=document.createElement('div');
-    intro.className='brand-intro';intro.setAttribute('aria-hidden','true');
-    intro.innerHTML='<div class="brand-intro-lockup"><span class="brand-intro-prelude">YOUR DAY IS ABOUT TO MOVE.</span><div class="brand-intro-orbit"><svg viewBox="0 0 140 140" class="brand-intro-route"><circle cx="70" cy="70" r="62" pathLength="1"/></svg><i></i><img src="assets/brand/icon-dark.webp" width="80" height="80" alt=""></div><strong>CARTMAN<span>PH</span></strong><p>EVERYTHING. <span>DELIVERED.</span></p><span class="brand-intro-services">DELIVERIES <i>·</i> LIFT <i>·</i> ERRANDS</span></div>';
-    document.body.append(intro);
-    document.dispatchEvent(new Event('cartman-intro-change'));
-    const controls=new AbortController();
-    const animation=intro.animate([{opacity:1},{opacity:1,offset:.81},{opacity:0}],{duration:2600,easing:'ease-in-out',fill:'forwards'});
-    let dismissed=false;
-    const dismiss=()=>{if(dismissed)return;dismissed=true;intro.remove();controls.abort();animation.cancel();document.dispatchEvent(new Event('cartman-intro-change'))};
-    animation.finished.then(dismiss).catch(dismiss);
-    for(const event of ['pointerdown','keydown','wheel','touchstart','pagehide'])addEventListener(event,dismiss,{once:true,passive:true,signal:controls.signal});
-    preference.addEventListener('change',dismiss,{once:true,signal:controls.signal});
   }
   function opening(){
     const hero=document.querySelector('.campaign-hero');

@@ -73,3 +73,5 @@ Run `npx vercel --prod` after signing in. `vercel.json` configures the static bu
 To inspect the production build locally in PowerShell, set `$env:STATIC_DIR='build'` and `$env:PORT='4180'`, then run `node server.mjs`.
 
 Motion uses a self-hosted Lenis 1.3.27 browser build on marketing pages for fine-pointer wheel input. Touch scrolling and the ordering app remain native. Reduced-motion preferences disable smoothing and reveal effects. The vendored MIT license is in dist/assets/vendor/lenis-LICENSE.txt; update that browser build alongside the npm dependency.
+
+Production performance: hashed page bundles are served from build/static with immutable browser caching. The smooth-wheel library loads only when needed; the carousel idles off-screen and disposes listeners on route changes. Build output is recreated on every build to avoid retaining obsolete bundles.

@@ -263,6 +263,9 @@ function servicePage() {
 }
 
 function slideshow() {
+  slideshow.dispose?.();
+  const lifecycle=new AbortController();
+  const listenerOptions={signal:lifecycle.signal};
   const slides=[
     {src:media.hero,mobile:'assets/rider-mobile-v2.webp',label:'01 / MORE LIFE. FEWER ERRANDS.',alt:'A smiling Cartman rider in a black branded uniform',copy:'Meals, essentials, parcels, and errands.<br>Motorcycle and tricycle rides with LIFT.',greeting:'A little help for your day.',heading:'What sounds<br>good today?',promo:'A whole lot<br>of possibilities.',image:media.food,card:'A little closer to you.',note:'Your everyday, made easier.',symbol:'bike'},
     {src:'assets/delivery-hero-v2.webp',mobile:'assets/delivery-mobile-v2.webp',label:'02 / CARE AT EVERY DOORSTEP.',alt:'A Cartman PH courier in a black uniform delivers groceries to a customer',copy:'Food, groceries, and parcels to your door.<br>More time for the rest of your day.',greeting:'From a little trip to your doorstep.',heading:'Every little<br>step, in view.',promo:'Care at every<br>doorstep.',image:media.grocery,card:'Care at every doorstep.',note:'From pickup to a little happiness.',symbol:'box'},
@@ -271,14 +274,14 @@ function slideshow() {
   slide=0;
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const slideDuration=4000;
-  let paused=motion.matches, hovering=false, revision=0, countdown;
+  let paused=motion.matches, hovering=false, inView=true, revision=0, countdown, visibilityObserver;
   const hero=$('.campaign-hero'), heroImage=$('#hero-image');
   const mobileMedia=matchMedia('(max-width:767px)');
   const sourceFor=s=>mobileMedia.matches?s.mobile:s.src;
   heroImage.src=slides[0].src;
-  mobileMedia.addEventListener('change',()=>{if(!hero.isConnected)return;hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())});
+  mobileMedia.addEventListener('change',()=>{if(!hero.isConnected)return;hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())},listenerOptions);
   // Warm the small campaign set so transitions do not expose unloaded images.
-  [...new Set(slides.map(sourceFor))].forEach(src=>{const image=new Image();image.src=src});
+  [...new Set(slides.map(sourceFor))].forEach(src=>{const image=new Image();image.fetchPriority='low';image.decoding='async';image.src=src});
   function show(n){
     const next=(n+slides.length)%slides.length;
     if(next===slide)return;
@@ -292,9 +295,10 @@ function slideshow() {
       outgoing.src=heroImage.currentSrc;
       outgoing.removeAttribute('id');outgoing.alt='';outgoing.setAttribute('aria-hidden','true');
       outgoing.classList.add('hero-image-outgoing');
-      for(const key of ['objectPosition','objectFit','maskImage','maskComposite','left','right','top','bottom','width','height'])outgoing.style[key]=getComputedStyle(heroImage)[key];
-      outgoing.style.transform=getComputedStyle(heroImage).transform;
-      outgoing.style.transformOrigin=getComputedStyle(heroImage).transformOrigin;
+      const imageStyle=getComputedStyle(heroImage);
+      for(const key of ['objectPosition','objectFit','maskImage','maskComposite','left','right','top','bottom','width','height'])outgoing.style[key]=imageStyle[key];
+      outgoing.style.transform=imageStyle.transform;
+      outgoing.style.transformOrigin=imageStyle.transformOrigin;
       heroImage.closest('picture').after(outgoing);
     }
     const s=slides[slide];
@@ -320,8 +324,11 @@ function slideshow() {
     }
   }
   function start(){
+    if(lifecycle.signal.aborted)return;
     clearInterval(slideTimer);countdown?.cancel();
-    if(!paused&&!hovering&&!hero.querySelector(':focus-visible')&&!document.querySelector('.brand-intro')&&!document.hidden&&hero.isConnected){
+    const canPlay=!paused&&!hovering&&inView&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected;
+    hero.dataset.autoplay=canPlay?'running':'idle';
+    if(canPlay){
       const bar=hero.querySelector('[data-slide].active .slide-duration');
       if(!motion.matches)countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:slideDuration,fill:'forwards'});
       slideTimer=setInterval(()=>{show(slide+1);start()},slideDuration);
@@ -353,12 +360,19 @@ function slideshow() {
   hero.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hovering=false;start()}});
   hero.addEventListener('focusin',()=>start());
   hero.addEventListener('focusout',()=>queueMicrotask(start));
-  document.onvisibilitychange=()=>{if($('#hero-image'))start();else clearInterval(slideTimer)};
+  document.addEventListener('visibilitychange',start,listenerOptions);
   document.querySelectorAll('[data-slide]').forEach(b=>b.innerHTML='<span class="slide-duration" aria-hidden="true"></span>');
-  motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()});
-  slideshow.introEvents?.abort();
-  slideshow.introEvents=new AbortController();
-  document.addEventListener('cartman-intro-change',start,{signal:slideshow.introEvents.signal});
+  motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()},listenerOptions);
+  if('IntersectionObserver' in window){
+    visibilityObserver=new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;start()},{threshold:0});
+    visibilityObserver.observe(hero);
+  }
+  slideshow.dispose=()=>{
+    if(lifecycle.signal.aborted)return;
+    ++revision;clearInterval(slideTimer);countdown?.cancel();lifecycle.abort();visibilityObserver?.disconnect();
+    hero.getAnimations({subtree:true}).forEach(animation=>animation.cancel());
+    hero.querySelectorAll('.hero-image-outgoing').forEach(node=>node.remove());
+  };
   // First paint shows the complete phone screen; animate only subsequent changes.
   start();
 }
