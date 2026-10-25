@@ -111,7 +111,7 @@ function home() {
       ${downloadBadges()}<div class="hero-web-entry"><span>Prefer a bigger screen?</span><a class="textlink" href="order.html" target="_blank" rel="noopener">Order online ${icon('arrow')}</a><small>Opens the ordering demo in a new tab</small></div>
       <div class="hero-style-detail">${icon('pin')}<span>Made for your neighborhood</span><i aria-hidden="true"></i></div>${heroInspiration()}
     </div><div class="hero-visual"><div class="hero-phone">${appPhone('hero-device')}</div></div></div>
-    <div class="wrap campaign-bottom"><span id="campaign-label">01 / MORE LIFE. FEWER ERRANDS.</span><div class="campaign-controls"><div class="dots">${[0,1,2].map(i=>`<button data-slide="${i}" class="${i===0?'active':''}" aria-label="Show campaign ${i+1}" aria-pressed="${i===0}"></button>`).join('')}</div><button class="pause-button" id="pause-slide" aria-label="Pause slideshow">Ⅱ</button><button class="campaign-next" data-direction="1" aria-label="Next campaign">${icon('arrow')}</button></div></div>
+    <div class="wrap campaign-bottom"><span id="campaign-label">01 / MORE LIFE. FEWER ERRANDS.</span><div class="campaign-controls" role="group" aria-label="Slideshow navigation"><div class="dots">${[0,1,2].map(i=>`<button data-slide="${i}" class="${i===0?'active':''}" aria-label="Show campaign ${i+1}" aria-pressed="${i===0}"></button>`).join('')}</div><button class="campaign-next" data-direction="1" aria-label="Next campaign">${icon('arrow')}</button></div></div>
   </section>
   <section class="section service-section"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Your everyday, all in one place</div><h2>Deliveries. Rides. <span>Errands.</span></h2></div><a class="textlink" href="#/services">Explore all services ${icon('arrow')}</a></div>${serviceCardView()}</div></section>
   <section class="section web-order-section"><div class="wrap web-order-panel"><div><div class="eyebrow">YOUR CARTMAN. YOUR WAY.</div><h2>No app? No problem.<br><span>Your neighborhood is online.</span></h2><p>Order meals and essentials, send a parcel, plan errands, or try a Cartman LIFT ride in the web demo.</p><a class="btn" href="order.html" target="_blank" rel="noopener">Open the ordering app ${icon('arrow')}</a><small>New tab · Interactive demo · No real orders or payments</small></div><div class="web-order-preview"><div class="browser-chrome"><i></i><i></i><i></i><span>cartman · order online</span></div><img src="assets/filipino-comfort-food.webp" alt="Filipino comfort food for your next favorite meal" width="800" height="520" loading="lazy"><div class="web-preview-caption"><strong>A little closer to your favorites.</strong><span>Food · Essentials · Parcels · Errands · LIFT</span></div></div></div></section><section class="together-band"><div class="wrap together-grid"><h2>Good things<br><span>move together.</span></h2><div class="together-item">${icon('shop')}<div><h3>Grow with Cartman PH</h3><p>Bring your local business<br>closer to more doorsteps.</p><a href="#/partners?type=merchant" class="btn white">Become a merchant ${icon('arrow')}</a></div></div><div class="together-item">${icon('bike')}<div><h3>Deliver. Ride. Connect.</h3><p>Explore delivery, errand, and<br>LIFT partnership opportunities.</p><a href="#/partners?type=rider" class="btn white">Ride with Cartman ${icon('arrow')}</a></div></div></div></section>
@@ -271,7 +271,7 @@ function slideshow() {
   slide=0;
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const slideDuration=4000;
-  let paused=motion.matches, revision=0, countdown;
+  let paused=motion.matches, hovering=false, revision=0, countdown;
   const hero=$('.campaign-hero'), heroImage=$('#hero-image');
   const mobileMedia=matchMedia('(max-width:767px)');
   const sourceFor=s=>mobileMedia.matches?s.mobile:s.src;
@@ -321,7 +321,7 @@ function slideshow() {
   }
   function start(){
     clearInterval(slideTimer);countdown?.cancel();
-    if(!paused&&!document.hidden){
+    if(!paused&&!hovering&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected){
       const bar=hero.querySelector('[data-slide].active .slide-duration');
       if(!motion.matches)countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:slideDuration,fill:'forwards'});
       slideTimer=setInterval(()=>{show(slide+1);start()},slideDuration);
@@ -341,8 +341,7 @@ function slideshow() {
       node.querySelector('i')?.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:300,delay:700+i*300,fill:'backwards',easing:'ease-out'});
     });
   }
-  function pauseLabel(){const b=$('#pause-slide');b.textContent=paused?'▶':'Ⅱ';b.setAttribute('aria-label',paused?'Play slideshow':'Pause slideshow')}
-  function choose(n){paused=true;pauseLabel();show(n);start()}
+  function choose(n){show(n);start()}
   document.querySelectorAll('[data-slide]').forEach(b=>b.onclick=()=>choose(Number(b.dataset.slide)));
   document.querySelectorAll('[data-direction]').forEach(b=>b.onclick=()=>choose(slide+Number(b.dataset.direction)));
   hero.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();choose(e.key==='Home'?0:e.key==='End'?slides.length-1:slide+(e.key==='ArrowRight'?1:-1))});
@@ -350,11 +349,14 @@ function slideshow() {
   hero.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&!e.target.closest('a,button'))gesture={x:e.clientX,y:e.clientY}});
   hero.addEventListener('pointerup',e=>{if(!gesture)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;gesture=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)choose(slide+(dx<0?1:-1))});
   hero.addEventListener('pointercancel',()=>{gesture=null});
-  $('#pause-slide').onclick=()=>{paused=!paused;pauseLabel();start()};
+  hero.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hovering=true;start()}});
+  hero.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hovering=false;start()}});
+  hero.addEventListener('focusin',()=>start());
+  hero.addEventListener('focusout',()=>queueMicrotask(start));
   document.onvisibilitychange=()=>{if($('#hero-image'))start();else clearInterval(slideTimer)};
   document.querySelectorAll('[data-slide]').forEach(b=>b.innerHTML='<span class="slide-duration" aria-hidden="true"></span>');
-  motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}pauseLabel();start()});
-  pauseLabel();animateScreen();start();
+  motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()});
+  animateScreen();start();
 }
 
 function refineMotion(route){window.CartmanMotion?.mount(document,{opening:route==='/'})}
