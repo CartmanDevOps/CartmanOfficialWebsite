@@ -286,3 +286,30 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
 
 @media(max-width:340px){.campaign-hero .hero-description{min-height:6.4em}}
 @container(max-width:205px){.campaign-hero .hero-device .phone-view[data-phone-page="0"]{gap:3px;padding-block:4px}}
+
+/* Touch scrolling should never retain desktop hover lifts or image zoom. */
+@media(hover:none){
+ .ui-variant :is(.service-card,.store-card,.download-badge,.btn):hover{transform:none;translate:none}
+ .ui-variant .service-card:hover .service-photo>img{transform:none}
+}
+
+/* Laptop opening: keep the campaign visible beside the introduction. */
+@media(min-width:1200px) and (max-width:1350px){
+ .campaign-hero[data-scene]{--media-height:620px;--device-width:220px;display:block}
+ .campaign-hero .hero-layout{display:grid;grid-template-columns:minmax(0,1fr) 238px;min-height:var(--media-height);padding:0 0 0 40px}
+ .campaign-hero .hero-content{grid-column:auto;grid-row:auto;max-width:370px;align-self:center;padding:36px 18px 36px 0;background:transparent}
+ .campaign-hero .hero-content h1{font-size:64px;letter-spacing:-3px}
+ .campaign-hero .hero-description{font-size:17px;line-height:1.6;min-height:64px}
+ .campaign-hero .hero-inspiration{display:none}
+ .campaign-hero .hero-wash{display:block;background:linear-gradient(90deg,var(--theme-hero),color-mix(in srgb,var(--theme-hero) 94%,transparent) 18%,color-mix(in srgb,var(--theme-hero) 65%,transparent) 29%,transparent 46%)}
+ .campaign-hero[data-scene] .hero-backdrop{position:absolute;inset:0 auto auto 0;width:100%;height:var(--media-height);object-position:center top;z-index:-3}
+ .campaign-hero .hero-visual{grid-column:auto;grid-row:auto;height:var(--media-height)}
+ .campaign-hero[data-scene] .hero-phone{top:48px;right:14px}
+ .campaign-hero[data-scene="1"]{--device-width:180px}
+ .campaign-hero[data-scene="1"] .hero-phone{top:250px}
+ .campaign-hero .download-badges{gap:8px}
+ .campaign-hero .download-badge{padding:10px 12px;gap:8px}
+ .campaign-hero .download-badge strong{font-size:16px}
+ .campaign-hero .download-badge small{font-size:9px}
+ .campaign-hero .campaign-bottom{grid-row:auto;grid-column:auto;background:var(--theme-hero)}
+}

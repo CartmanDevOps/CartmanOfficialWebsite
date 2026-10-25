@@ -1,7 +1,7 @@
 /* Shared motion: short, interruptible and limited to transforms/opacity. */
 :root{--motion-ease:cubic-bezier(.2,.75,.25,1);--motion-fast:180ms;--motion-page:320ms}
 #motion-scroll-sentinel{position:absolute;top:24px;left:0;width:1px;height:1px;pointer-events:none;opacity:0}
-[data-motion-state="pending"]{opacity:0}
+[data-motion-state="pending"]{opacity:1}
 #header{transition:box-shadow 320ms ease,background-color 240ms ease}
 .has-scrolled #header,.has-scrolled .topbar{box-shadow:0 8px 28px #173b2414}
 @media(prefers-reduced-motion:no-preference){
@@ -31,7 +31,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
  .store-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px #193c2412}
  .primary:hover,.secondary:hover{transform:translateY(-1px)}
 }
-@keyframes page-arrive{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes page-arrive{from{opacity:.96}to{opacity:1}}
 @keyframes panel-arrive{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @keyframes dialog-arrive{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
 @keyframes veil-arrive{from{opacity:0}to{opacity:1}}

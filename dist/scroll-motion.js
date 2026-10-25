@@ -16,22 +16,8 @@
   function reveal(node,immediate=false){
     observer?.unobserve(node);pending.delete(node);node.dataset.motionState='entered';
     if(immediate||preference.matches)return;
-    const group=node.closest('.photo-services,.steps,.store-grid,.menu-grid,.together-grid,.footer-grid,.page-values,.story-grid,.faq,.partner-value-grid,.partner-journey');
-    const index=group?[...group.children].indexOf(node):0;
-    const compact=innerWidth<768;
-    const delay=compact?0:Math.max(0,index%3)*65;
-    const approach=document.documentElement.dataset.appearance;
-    const distance=node.matches('.footer-bottom')?0:({white:14,black:12}[approach]||18);
-    animate(node,[{opacity:compact ? .7 : 0,translate:`0 ${compact?6:distance}px`},{opacity:1,translate:'0 0'}],{duration:compact?280:approach==='black'?640:760,delay,fill:'backwards'});
-    if(node.matches('.app-reminder')&&!compact){
-      node.dataset.motionAccent='play';
-      // Reveal real content in reading order; no artificial loading delay.
-      ['.app-launch-icon','.app-launch-meta','.app-launch-copy h2','.app-launch-copy p','.btn'].forEach((query,index)=>{
-        const item=node.querySelector(query);
-        const frames=query==='.app-launch-icon'?[{opacity:0,transform:'translateY(10px) scale(.9)'},{opacity:1,transform:'translateY(0) scale(1)'}]:[{opacity:0,translate:'0 12px'},{opacity:1,translate:'0 0'}];
-        animate(item,frames,{duration:600,delay:70+index*55,fill:'backwards'});
-      });
-    }
+    // Content stays readable throughout scrolling; motion is a small one-shot settle.
+    animate(node,[{opacity:.94,translate:'0 4px'},{opacity:1,translate:'0 0'}],{duration:320});
   }
   function prepareImages(root){
     root.querySelectorAll('.service-photo img,.store-photo img,.web-order-preview>img,.partner-story>img,.intro-scene>img,.story-card>img,.journey-image>img,.menu-product-image>img,.partner-photo img').forEach(img=>{
@@ -41,7 +27,7 @@
       const finish=()=>{
         host.classList.remove('media-loading');loading.delete(host);img.dataset.motionImage='ready';
         const rect=img.getBoundingClientRect();
-        if(img.naturalWidth&&rect.bottom>0&&rect.top<innerHeight)animate(img,[{opacity:.3},{opacity:1}],{duration:420});
+        if(img.naturalWidth&&rect.bottom>0&&rect.top<innerHeight)animate(img,[{opacity:.9},{opacity:1}],{duration:220});
       };
       img.addEventListener('load',finish,{once:true,signal:scope.signal});
       img.addEventListener('error',finish,{once:true,signal:scope.signal});
@@ -80,14 +66,10 @@
     const hero=document.querySelector('.campaign-hero');
     if(opened||!hero||scrollY>40||preference.matches)return;
     opened=true;
-    // Opening brand intro disabled; the hero is immediately available.
-    const steps=[['.hero-content>.eyebrow',0,8],['.hero-content h1',65,18],['.hero-description',145,12],['.download-badges',210,10],['.hero-web-entry',270,8]];
-    for(const [query,delay,y] of steps)animate(hero.querySelector(query),[{opacity:.12,translate:`0 ${y}px`},{opacity:1,translate:'0 0'}],{duration:760,delay,fill:'backwards'});
-    // Opacity only: protected faces, branding and device bounds never drift or zoom.
-    animate(hero.querySelector('#hero-image'),[{opacity:.45},{opacity:1}],{duration:1000});
-    animate(hero.querySelector('.hero-phone'),[{opacity:.15},{opacity:1}],{duration:720,delay:180,fill:'backwards'});
-    animate(document.querySelector('#header .nav'),[{opacity:.4},{opacity:1}],{duration:580});
+    // Reveal the complete UI immediately; never fade the phone chassis or its contents.
+    animate(hero.querySelector('.hero-content'),[{translate:'0 4px'},{translate:'0 0'}],{duration:360});
   }
+
   function cleanup(){
     observer?.disconnect();headerObserver?.disconnect();ambientObserver?.disconnect();scope?.abort();
     document.querySelectorAll('[data-in-view]').forEach(node=>delete node.dataset.inView);
@@ -101,7 +83,7 @@
     if(!preference.matches&&'IntersectionObserver' in window){
       observer=new IntersectionObserver(entries=>{
         entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.04)reveal(entry.target)});
-      },{threshold:.04,rootMargin:innerWidth<768?'0px 0px 100px 0px':'0px'});
+      },{threshold:.04,rootMargin:'0px 0px 140px 0px'});
     }else observer=null;
     if(!preference.matches&&'IntersectionObserver' in window){
       ambientObserver=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.dataset.inView=String(entry.isIntersecting)),{threshold:.1});

@@ -359,7 +359,8 @@ function slideshow() {
   slideshow.introEvents?.abort();
   slideshow.introEvents=new AbortController();
   document.addEventListener('cartman-intro-change',start,{signal:slideshow.introEvents.signal});
-  animateScreen();start();
+  // First paint shows the complete phone screen; animate only subsequent changes.
+  start();
 }
 
 function refineMotion(route){window.CartmanMotion?.mount(document,{opening:route==='/'})}
