@@ -79,10 +79,22 @@
     const hero=document.querySelector('.campaign-hero');
     if(opened||!hero||scrollY>40||preference.matches)return;
     opened=true;
-    // Reveal the complete UI immediately; never fade the phone chassis or its contents.
-    ['.hero-content>.eyebrow','.hero-content h1','.hero-description','.download-badges','.hero-web-entry'].forEach((query,index)=>{
-      animate(hero.querySelector(query),[{opacity:.8,translate:'0 8px'},{opacity:1,translate:'0 0'}],{duration:620,delay:index*45,fill:'backwards'});
-    });
+    const entries=[];
+    const enter=(node,delay=0,distance=8,duration=680)=>{
+      const animation=animate(node,[{opacity:.88,translate:`0 ${distance}px`},{opacity:1,translate:'0 0'}],{duration,delay,fill:'backwards'});
+      if(animation)entries.push(animation);
+    };
+    hero.dataset.opening='entering';
+    enter(hero.querySelector('.hero-content>.eyebrow'),0,4,520);
+    enter(hero.querySelector('.hero-content h1'),35,10,720);
+    enter(hero.querySelector('.hero-content h1>span'),85,4,720);
+    enter(hero.querySelector('.hero-description'),110,7,650);
+    hero.querySelectorAll('.download-badge').forEach((badge,index)=>enter(badge,155+index*45,6,620));
+    enter(hero.querySelector('.hero-web-entry'),210,5,600);
+    // A solid device settles within its existing safe frame; it never becomes translucent.
+    const phone=animate(hero.querySelector('.hero-phone'),[{translate:'0 8px'},{translate:'0 0'}],{duration:820,delay:100,fill:'backwards'});
+    if(phone)entries.push(phone);
+    Promise.all(entries.map(animation=>animation.finished.catch(()=>{}))).then(()=>{if(hero.isConnected)hero.dataset.opening='ready'});
   }
 
   function cleanup(){
@@ -122,5 +134,12 @@
     if(smoothScroll)smoothScroll.scrollTo(target,{offset:0,lerp:0,duration:1.05});
     else target.scrollIntoView({behavior:preference.matches?'instant':'smooth',block:'start'});
   }
-  window.CartmanMotion={mount,refresh,scrollTo:scrollToElement};
+  function closeDialog(dialog){
+    if(!dialog?.open||dialog.dataset.closing==='true')return;
+    if(preference.matches||!dialog.animate){dialog.close();return;}
+    dialog.dataset.closing='true';
+    const exit=animate(dialog,[{opacity:1,transform:'translateY(0) scale(1)'},{opacity:0,transform:'translateY(6px) scale(.985)'}],{duration:160,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
+    exit.finished.catch(()=>{}).finally(()=>{if(dialog.open)dialog.close();delete dialog.dataset.closing;exit.cancel()});
+  }
+  window.CartmanMotion={mount,refresh,scrollTo:scrollToElement,closeDialog};
 })();
