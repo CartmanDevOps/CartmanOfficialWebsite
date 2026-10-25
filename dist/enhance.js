@@ -275,20 +275,28 @@ function slideshow() {
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const slideDuration=4000;
   let paused=motion.matches, hovering=false, inView=true, revision=0, countdown, visibilityObserver;
+  let remaining=slideDuration,startedAt=0,running=false,transitioning=false;
+  const slideAnimations=new Set();
+  function animateSlide(node,frames,options){
+    if(!node||motion.matches)return;
+    const animation=node.animate(frames,options);slideAnimations.add(animation);
+    animation.finished.catch(()=>{}).finally(()=>slideAnimations.delete(animation));return animation;
+  }
   const hero=$('.campaign-hero'), heroImage=$('#hero-image');
   const mobileMedia=matchMedia('(max-width:767px)');
   const sourceFor=s=>mobileMedia.matches?s.mobile:s.src;
   heroImage.src=slides[0].src;
-  mobileMedia.addEventListener('change',()=>{if(!hero.isConnected)return;hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())},listenerOptions);
+  mobileMedia.addEventListener('change',()=>{if(!hero.isConnected)return;++revision;transitioning=false;slideAnimations.forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove());resetCycle();start()},listenerOptions);
   // Warm the small campaign set so transitions do not expose unloaded images.
   [...new Set(slides.map(sourceFor))].forEach(src=>{const image=new Image();image.fetchPriority='low';image.decoding='async';image.src=src});
   function show(n){
     const next=(n+slides.length)%slides.length;
-    if(next===slide)return;
+    if(next===slide){resetCycle();start();return;}
+    resetCycle();transitioning=true;start();
     slide=next;
     const current=++revision;
     hero.querySelectorAll('.hero-image-outgoing').forEach(image=>image.remove());
-    hero.getAnimations({subtree:true}).forEach(animation=>animation.cancel());
+    slideAnimations.forEach(animation=>animation.cancel());
     let outgoing;
     if(!motion.matches){
       outgoing=heroImage.cloneNode();
@@ -311,67 +319,78 @@ function slideshow() {
     document.querySelectorAll('[data-slide]').forEach((b,i)=>{b.classList.toggle('active',i===slide);b.setAttribute('aria-pressed',String(i===slide))});
     if(!motion.matches){
       [phone.querySelector('.phone-view'),$('#campaign-description')].forEach(node=>{
-        node.animate([{opacity:.25},{opacity:1}],{duration:280,easing:'cubic-bezier(.2,.7,.2,1)'});
+        animateSlide(node,[{opacity:.45},{opacity:1}],{duration:320,easing:'cubic-bezier(.2,.7,.2,1)'});
       });
       animateScreen();
-      // Keep the previous photo visible until its replacement has decoded.
-      heroImage.decode().catch(()=>{}).then(()=>{
-        if(current!==revision||!hero.isConnected){outgoing?.remove();return}
-        if(motion.matches){outgoing?.remove();return}
-        const fade=outgoing.animate([{opacity:1},{opacity:0}],{duration:380,easing:'ease-in-out',fill:'forwards'});
-        fade.finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
-      });
     }
+    // A slide gets its complete viewing period once the replacement photo is decoded.
+    heroImage.decode().catch(()=>{}).then(()=>{
+      if(current!==revision||lifecycle.signal.aborted){outgoing?.remove();return;}
+      transitioning=false;
+      if(outgoing&&!motion.matches){
+        const fade=animateSlide(outgoing,[{opacity:1},{opacity:0}],{duration:380,easing:'ease-in-out',fill:'forwards'});
+        fade.finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
+      }else outgoing?.remove();
+      start();
+    });
+  }
+  function resetCycle(){
+    clearTimeout(slideTimer);running=false;remaining=slideDuration;countdown?.cancel();countdown=null;
   }
   function start(){
     if(lifecycle.signal.aborted)return;
-    clearInterval(slideTimer);countdown?.cancel();
-    const canPlay=!paused&&!hovering&&inView&&hero.dataset.opening!=='entering'&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected;
-    hero.dataset.autoplay=canPlay?'running':'idle';
-    if(canPlay){
-      const bar=hero.querySelector('[data-slide].active .slide-duration');
-      if(!motion.matches)countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:slideDuration,fill:'forwards'});
-      slideTimer=setInterval(()=>{show(slide+1);start()},slideDuration);
+    const canPlay=!paused&&!hovering&&inView&&!transitioning&&hero.dataset.opening!=='entering'&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected;
+    hero.dataset.autoplay=canPlay?'running':transitioning?'transitioning':'idle';
+    if(canPlay===running)return;
+    if(!canPlay){
+      remaining=Math.max(0,remaining-(performance.now()-startedAt));clearTimeout(slideTimer);running=false;countdown?.pause();return;
     }
+    if(!countdown){
+      const bar=hero.querySelector('[data-slide].active .slide-duration');
+      countdown=bar?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:slideDuration,fill:'forwards'});
+      if(countdown)countdown.currentTime=slideDuration-remaining;
+    }
+    running=true;startedAt=performance.now();countdown?.play();
+    slideTimer=setTimeout(()=>{running=false;remaining=0;show(slide+1)},remaining);
   }
   function animateScreen(){
     if(motion.matches)return;
-    hero.querySelectorAll('.screen-section').forEach((node,i)=>node.animate([{opacity:0,transform:'scale(.985)'},{opacity:1,transform:'scale(1)'}],{duration:480,delay:100+i*100,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}));
-    hero.querySelector('.screen-route-line')?.animate([{strokeDasharray:'1',strokeDashoffset:1},{strokeDasharray:'1',strokeDashoffset:0}],{duration:1400,delay:350,easing:'ease-in-out',fill:'backwards'});
-    hero.querySelector('.screen-progress i')?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:1200,delay:550,easing:'ease-out',fill:'backwards'});
-    hero.querySelector('.screen-route-rider')?.animate([
+    hero.querySelectorAll('.screen-section').forEach((node,i)=>animateSlide(node,[{opacity:0,transform:'scale(.985)'},{opacity:1,transform:'scale(1)'}],{duration:480,delay:100+i*100,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}));
+    animateSlide(hero.querySelector('.screen-route-line'),[{strokeDasharray:'1',strokeDashoffset:1},{strokeDasharray:'1',strokeDashoffset:0}],{duration:1400,delay:350,easing:'ease-in-out',fill:'backwards'});
+    animateSlide(hero.querySelector('.screen-progress i'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:1200,delay:550,easing:'ease-out',fill:'backwards'});
+    animateSlide(hero.querySelector('.screen-route-rider'),[
       {transform:'translate(0,0)'},{transform:'translate(55px,0)',offset:.25},
       {transform:'translate(55px,-40px)',offset:.45},{transform:'translate(115px,-40px)'}
     ],{duration:2600,delay:650,easing:'ease-in-out',fill:'forwards'});
     hero.querySelectorAll('.screen-store,.screen-shopping-row').forEach((node,i)=>{
-      node.animate([{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:450,delay:350+i*160,fill:'backwards',easing:'ease-out'});
-      node.querySelector('i')?.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:300,delay:700+i*300,fill:'backwards',easing:'ease-out'});
+      animateSlide(node,[{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:450,delay:350+i*160,fill:'backwards',easing:'ease-out'});
+      animateSlide(node.querySelector('i'),[{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:300,delay:700+i*300,fill:'backwards',easing:'ease-out'});
     });
   }
-  function choose(n){show(n);start()}
+  function choose(n){show(n)}
   document.querySelectorAll('[data-slide]').forEach(b=>b.onclick=()=>choose(Number(b.dataset.slide)));
   document.querySelectorAll('[data-direction]').forEach(b=>b.onclick=()=>choose(slide+Number(b.dataset.direction)));
   hero.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();choose(e.key==='Home'?0:e.key==='End'?slides.length-1:slide+(e.key==='ArrowRight'?1:-1))});
   let gesture;
-  hero.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&!e.target.closest('a,button'))gesture={x:e.clientX,y:e.clientY}});
-  hero.addEventListener('pointerup',e=>{if(!gesture)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;gesture=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)choose(slide+(dx<0?1:-1))});
-  hero.addEventListener('pointercancel',()=>{gesture=null});
-  hero.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hovering=true;start()}});
-  hero.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hovering=false;start()}});
+  hero.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'&&hovering){hovering=false;start()}if(e.pointerType==='touch'&&e.isPrimary&&!e.target.closest('a,button'))gesture={id:e.pointerId,x:e.clientX,y:e.clientY}});
+  hero.addEventListener('pointerup',e=>{if(!gesture||gesture.id!==e.pointerId)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;gesture=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)choose(slide+(dx<0?1:-1))});
+  hero.addEventListener('pointercancel',e=>{if(gesture?.id===e.pointerId)gesture=null});
+  hero.querySelector('.campaign-controls').addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hovering=true;start()}});
+  hero.querySelector('.campaign-controls').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hovering=false;start()}});
   hero.addEventListener('focusin',()=>start());
   hero.addEventListener('focusout',()=>queueMicrotask(start));
   document.addEventListener('visibilitychange',start,listenerOptions);
   document.addEventListener('cartman-opening-change',start,listenerOptions);
   document.querySelectorAll('[data-slide]').forEach(b=>b.innerHTML='<span class="slide-duration" aria-hidden="true"></span>');
-  motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()},listenerOptions);
+  motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){slideAnimations.forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()},listenerOptions);
   if('IntersectionObserver' in window){
     visibilityObserver=new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;start()},{threshold:0});
     visibilityObserver.observe(hero);
   }
   slideshow.dispose=()=>{
     if(lifecycle.signal.aborted)return;
-    ++revision;clearInterval(slideTimer);countdown?.cancel();lifecycle.abort();visibilityObserver?.disconnect();
-    hero.getAnimations({subtree:true}).forEach(animation=>animation.cancel());
+    ++revision;clearTimeout(slideTimer);countdown?.cancel();lifecycle.abort();visibilityObserver?.disconnect();
+    slideAnimations.forEach(animation=>animation.cancel());slideAnimations.clear();
     hero.querySelectorAll('.hero-image-outgoing').forEach(node=>node.remove());
   };
   // First paint shows the complete phone screen; animate only subsequent changes.

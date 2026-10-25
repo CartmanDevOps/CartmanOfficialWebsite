@@ -73,7 +73,7 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
 
 /* Feedback follows the action: links and controls respond, editorial cards stay still. */
 .ui-variant :is(.textlink,.back-link,.footer-links a,.footer-bottom a,.sidebar-bottom>a,.auth-options>a,.form-foot a,.prose a,.errand-upgrade){text-decoration-thickness:1px;text-underline-offset:5px}
-.ui-variant :is(.theme-trigger,.menu-toggle,.password-toggle,.tabs button,.service-tabs button,.sidebar nav a,.account-sidebar nav a,.account-sidebar nav button,.order-row,.vehicle-option,.cart-toggle,.download-badge,.stop-actions button,.quantity button,.dialog-close,.add-button){transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,box-shadow 180ms ease}
+.ui-variant :is(.theme-trigger,.menu-toggle,.password-toggle,.tabs button,.service-tabs button,.sidebar nav a,.account-sidebar nav a,.account-sidebar nav button,.order-row,.vehicle-option,.cart-toggle,.download-badge,.stop-actions button,.quantity button,.dialog-close,.add-button){transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,box-shadow 180ms ease,transform 160ms ease}
 .ui-variant .password-toggle{border-radius:6px;min-width:44px;min-height:44px;top:5px}
 .ui-variant :is(.help-shortcuts>a,.account-mini-services a,.order-row,.store-card):focus-visible{border-color:var(--ui-accent);background-color:var(--ui-raised)}
 .ui-variant .story-card:focus-within{border-color:var(--ui-accent)}
@@ -300,4 +300,11 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
 }
 @media(min-width:1200px) and (max-width:1350px){
  :root[data-appearance="black"] .campaign-hero .hero-wash{background:linear-gradient(90deg,#0b0c0ec7,#0b0c0eb3 18%,#0b0c0e87 30%,#0b0c0e26 40%,transparent 49%)}
+}
+
+/* Touch feedback releases cleanly instead of retaining desktop hover decoration. */
+@media(hover:none){
+ .ui-variant .textlink:not(:focus-visible):hover>svg{translate:none;transform:none}
+ .ui-variant .service-card:not(:focus-visible):not(:active):hover{border-color:var(--ui-line)}
+ .ui-variant .service-card:not(:focus-visible):not(:active):hover:after{transform:scaleX(0)}
 }

@@ -45,7 +45,7 @@
 @media(min-width:1351px) and (max-width:1390px){.campaign-hero[data-scene="1"] .hero-backdrop{object-position:right top}}
 .btn,.textlink,.theme-trigger,.download-badge{transition:background-color .22s,color .22s,box-shadow .22s,transform .22s}
 .btn:hover{box-shadow:0 5px 15px #163d2618;transform:translateY(-2px)}.btn:active,.download-badge:active{transform:translateY(0)}
-.textlink>svg{transition:transform .22s}.textlink:hover>svg{transform:translateX(3px)}
+.textlink>svg{transition:translate .2s ease}
 .service-card{transition:border-color .25s,box-shadow .25s,transform .25s}.service-card:hover,.service-card:focus-visible{transform:translateY(-4px);box-shadow:0 12px 26px #1e382411;border-color:color-mix(in srgb,var(--theme-action) 38%,transparent)}
 .service-photo{overflow:hidden}.service-photo>img{transition:transform .55s cubic-bezier(.2,.7,.2,1)}.service-card:hover .service-photo>img,.service-card:focus-visible .service-photo>img{transform:scale(1.035)}
 .faq summary{transition:color .2s}.faq details[open] summary{color:var(--theme-action)}.faq details[open]>p{animation:answer-enter .25s ease-out}@keyframes answer-enter{from{opacity:.3;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}

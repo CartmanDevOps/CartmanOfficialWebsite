@@ -45,7 +45,7 @@
     const delay=(index%(compact?2:3))*(compact?35:55);
     animate(node,[{opacity:0,translate:`0 ${compact?14:22}px`},{opacity:1,translate:'0 0'}],{duration:compact?580:740,delay,fill:'backwards'});
     const photo=node.querySelector('.service-photo img,.store-photo img,.web-order-preview>img');
-    if(photo?.complete&&photo.naturalWidth)animate(photo,[{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:900,delay});
+    if(photo?.complete&&photo.naturalWidth)animate(photo,[{scale:1.025},{scale:1}],{duration:900,delay});
     if(node.matches('.app-reminder'))node.dataset.motionAccent='play';
   }
   function prepareImages(root){
