@@ -18,11 +18,12 @@
     if(immediate||preference.matches)return;
     const group=node.closest('.photo-services,.steps,.store-grid,.menu-grid,.together-grid,.footer-grid,.page-values,.story-grid,.faq,.partner-value-grid,.partner-journey');
     const index=group?[...group.children].indexOf(node):0;
-    const delay=Math.max(0,index%3)*65;
+    const compact=innerWidth<768;
+    const delay=compact?0:Math.max(0,index%3)*65;
     const approach=document.documentElement.dataset.appearance;
     const distance=node.matches('.footer-bottom')?0:({white:14,black:12}[approach]||18);
-    animate(node,[{opacity:0,translate:`0 ${distance}px`},{opacity:1,translate:'0 0'}],{duration:innerWidth<768?560:approach==='black'?640:760,delay,fill:'backwards'});
-    if(node.matches('.app-reminder')){
+    animate(node,[{opacity:compact ? .7 : 0,translate:`0 ${compact?6:distance}px`},{opacity:1,translate:'0 0'}],{duration:compact?280:approach==='black'?640:760,delay,fill:'backwards'});
+    if(node.matches('.app-reminder')&&!compact){
       node.dataset.motionAccent='play';
       // Reveal real content in reading order; no artificial loading delay.
       ['.app-launch-icon','.app-launch-meta','.app-launch-copy h2','.app-launch-copy p','.btn'].forEach((query,index)=>{
@@ -83,7 +84,7 @@
     if(!preference.matches&&'IntersectionObserver' in window){
       observer=new IntersectionObserver(entries=>{
         entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.04)reveal(entry.target)});
-      },{threshold:.04,rootMargin:'0px'});
+      },{threshold:.04,rootMargin:innerWidth<768?'0px 0px 100px 0px':'0px'});
     }else observer=null;
     if(!preference.matches&&'IntersectionObserver' in window){
       ambientObserver=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.dataset.inView=String(entry.isIntersecting)),{threshold:.1});

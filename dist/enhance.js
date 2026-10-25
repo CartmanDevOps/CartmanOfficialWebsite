@@ -30,19 +30,26 @@ function header() {
       ${nav.map(([href,label])=>`<a href="#${href}" ${currentHref===href?'aria-current="page"':''}>${label}</a>`).join('')}
       <a class="mobile-account" href="order.html#/orders" target="_blank" rel="noopener">My online orders</a>
       <a class="mobile-account" href="order.html#/account" target="_blank" rel="noopener">Your profile</a>
+      <a class="mobile-account" href="#/waitlist">Get the app</a>
+      <a class="mobile-account" href="#/about">About Cartman</a>
       <a class="mobile-account" href="#/help">Help center</a>
     </nav>
     <div class="nav-actions"><a class="textlink account-link" href="#/waitlist">Get the app</a><a class="btn nav-cta" href="order.html" target="_blank" rel="noopener" aria-label="Order online, opens in a new tab"><span class="cta-desktop" aria-hidden="true">Order online</span><span class="cta-mobile" aria-hidden="true">Order</span>${icon('arrow')}</a>${themeControl()}
     <button class="menu-toggle" aria-label="Open navigation" aria-controls="main-navigation" aria-expanded="false"><span></span><span></span></button></div></div>`;
+  header.interactions?.abort();
+  header.interactions=new AbortController();
   const toggle = $('.menu-toggle');
   const close = ()=>{$('.navlinks').classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open navigation');};
-  toggle.onclick=()=>{const open=$('.navlinks').classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close navigation':'Open navigation');};
+  toggle.onclick=()=>{closeTheme();const open=$('.navlinks').classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close navigation':'Open navigation');};
   toggle.onkeydown=e=>{if(e.key==='Escape')close()};
   $('.navlinks').onkeydown=e=>{if(e.key==='Escape'){close();toggle.focus()}};
   const themeTrigger=$('.theme-trigger');
   const panel=$('#theme-panel');
   const closeTheme=()=>{panel.hidden=true;themeTrigger.setAttribute('aria-expanded','false')};
   themeTrigger.onclick=()=>{const open=panel.hidden;panel.hidden=!open;themeTrigger.setAttribute('aria-expanded',String(open));if(open)close()};
+  document.addEventListener('pointerdown',e=>{if(!$('#header').contains(e.target)){close();closeTheme()}},{signal:header.interactions.signal});
+  $('.navlinks').addEventListener('click',e=>{if(e.target.closest('a'))close()});
+  $('.navlinks').addEventListener('focusout',e=>{if(!$('#header').contains(e.relatedTarget))close()});
   $('#appearance-select').onchange=e=>window.CartmanAppearance.apply(e.target.value);
   $('.theme-switcher').onkeydown=e=>{if(e.key==='Escape'){closeTheme();themeTrigger.focus()}};
   $('.theme-switcher').onfocusout=e=>{if(!e.currentTarget.contains(e.relatedTarget))closeTheme()};

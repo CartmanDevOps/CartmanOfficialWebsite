@@ -165,3 +165,86 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
   .ui-variant :is(.store-card,.service-card,.help-shortcuts>a,.account-mini-services a,.order-row,.vehicle-option,.service-tabs button,.tabs button):not(:disabled):active{transform:scale(.985)}
  }
 }
+
+/* Mobile review: readable content, reachable services and short, visible feedback. */
+@media(max-width:767px){
+ html{scroll-padding-top:84px}
+ .ui-variant :is(input,select,textarea):not([type="checkbox"]):not([type="radio"]){font-size:16px}
+ .ui-variant :is(input,select):not([type="checkbox"]):not([type="radio"]){min-height:48px}
+ .ui-variant textarea{min-height:120px}
+ .ui-variant :is(.check,.checkbox-label){min-height:44px;align-items:center}
+ .ui-variant [data-motion-state="pending"]{opacity:1}
+ #header .navlinks.open{max-height:calc(100dvh - 76px - env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain;padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+ #header .navlinks.open a{min-height:48px;display:flex;align-items:center;padding-block:10px}
+ .ui-variant .theme-panel{position:fixed;top:80px;right:12px;width:min(305px,calc(100vw - 24px));max-height:calc(100dvh - 96px);overflow:auto}
+ .campaign-hero .hero-content{padding-top:24px;padding-bottom:18px}
+ .campaign-hero .hero-content h1{font-size:clamp(46px,12.5vw,68px);letter-spacing:-2.5px;margin-top:18px}
+ .campaign-hero .hero-description{font-size:16px;line-height:1.6;margin-block:16px 18px}
+ .campaign-hero .download-badges{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-block:18px 12px}
+ .campaign-hero .download-badge{width:100%;max-width:none;min-width:0;min-height:60px;padding:10px;gap:8px;box-sizing:border-box}
+ .campaign-hero .download-badge strong{font-size:16px;white-space:nowrap}
+ .campaign-hero .download-badge small{font-size:9px;white-space:normal}
+ .campaign-hero .download-badge svg{width:22px;height:26px}
+ .campaign-hero .hero-web-entry{margin-top:8px;gap:0 10px;font-size:13px}
+ .campaign-hero .hero-web-entry .textlink{font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+ .campaign-hero .hero-web-entry small{font-size:11px;line-height:1.5}
+ .campaign-hero .hero-style-detail{display:none}
+ .ui-variant .section-head h2{font-size:clamp(26px,7vw,34px);line-height:1.2;letter-spacing:-.8px}
+ .ui-variant :is(.textlink:not(.account-link),.back-link,.footer-links a,.footer-bottom a){min-height:44px;display:inline-flex;align-items:center}
+ .ui-variant .footer-links{gap:0}
+ .ui-variant .web-order-panel{padding:22px 18px;gap:20px}
+ .ui-variant .web-order-panel .btn{width:100%;justify-content:center;padding-inline:12px;font-size:14px}
+ .ui-variant .web-order-panel>div>small{font-size:12px;line-height:1.6}
+ .ui-variant .form-shell :is(.form-content,.form-side){min-width:0}
+ .ui-variant .notice{font-size:13px;line-height:1.65}
+ .ui-variant .partner-interest .check{font-size:14px;line-height:1.6}
+ .ui-variant .order-site .back-link{margin-block:0 12px}
+ .ui-variant .order-site .app-footer{font-size:12px;line-height:1.65}
+ .ui-variant .order-site .app-footer a{min-height:44px;display:inline-flex;align-items:center}
+ .ui-variant .order-site :is(.disclosure,.store-details,.form-note){font-size:13px;line-height:1.65}
+ .ui-variant .order-site .menu-card-visual p{font-size:14px;line-height:1.55}
+ .ui-variant .order-site dialog{scroll-padding-bottom:24px}
+ .ui-variant .order-site .basket-item{align-items:flex-start;flex-wrap:wrap}
+ .ui-variant .order-site .basket-product{flex:1 1 165px}
+ .ui-variant .order-site .basket-item .quantity{margin-left:auto;gap:8px}
+ .ui-variant .order-site .basket-item small{font-size:12px}
+}
+@media(max-width:560px){
+ .photo-services{grid-template-columns:1fr;gap:12px}
+ .photo-services .service-card{display:grid;grid-template-columns:108px minmax(0,1fr);align-items:stretch;min-width:0;min-height:150px}
+ .photo-services .service-photo{width:108px;aspect-ratio:auto;height:100%;min-height:150px;border-radius:0}
+ .photo-services .service-photo>img{object-fit:contain}
+ .photo-services .service-number{top:8px;left:8px;font-size:10px}
+ .photo-services .service-card-body{padding:16px 14px;min-width:0}
+ .photo-services .service-card-title{gap:8px;flex-wrap:nowrap;align-items:flex-start}
+ .photo-services .service-card-title h3{font-size:17px;line-height:1.3;letter-spacing:-.3px}
+ .photo-services .service-card-title .round-arrow{width:26px;height:26px;flex:0 0 26px}
+ .photo-services .service-card-body p{font-size:14px;line-height:1.55;margin-top:9px}
+ .ui-variant .order-site .service-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow:visible;padding-bottom:0}
+ .ui-variant .order-site .service-tabs button{display:flex;flex-direction:row;justify-content:flex-start;text-align:left;font-size:13px;line-height:1.35;min-height:52px;padding:10px 12px;gap:9px;min-width:0}
+ .ui-variant .order-site .service-tabs button svg{width:21px;height:21px;flex-shrink:0}
+ .ui-variant .order-site .service-tabs button:last-child{grid-column:1/-1}
+ .ui-variant .order-site .top-actions .order-appearance{font-size:16px;width:84px;min-height:44px;height:44px;padding:8px 4px}
+ .ui-variant .order-site .address-button{min-height:44px}
+ .ui-variant .order-site .address-button strong{font-size:13px}
+ .ui-variant .order-site .address-button small{font-size:10px;letter-spacing:.7px}
+ .ui-variant .order-site .stop-actions{gap:6px;flex-wrap:wrap}
+ .ui-variant .order-site .vehicle-option{padding:14px 12px}
+}
+@media(max-width:360px){
+ .campaign-hero .download-badge strong{font-size:14px}
+ .campaign-hero .download-badge svg{width:19px}
+ .campaign-hero .download-badge small{font-size:8px}
+ .photo-services .service-card{grid-template-columns:90px minmax(0,1fr)}
+ .photo-services .service-photo{width:90px}
+ .photo-services .service-card-body{padding:14px 12px}
+ .photo-services .service-card-title h3{font-size:16px}
+ .photo-services .service-card-title .round-arrow{display:none}
+ .ui-variant .order-site .service-tabs button{padding-inline:10px;font-size:12px}
+}
+
+@media(max-width:767px){
+ .ui-variant .order-site dialog>.eyebrow{display:block;padding-right:42px;white-space:normal;overflow-wrap:anywhere;font-size:10px;line-height:1.6;letter-spacing:1.2px}
+ .ui-variant .order-site .dialog-close{top:12px;right:12px}
+ .ui-variant .order-site .form-panel label,.ui-variant .field{font-size:14px;line-height:1.5}
+}
