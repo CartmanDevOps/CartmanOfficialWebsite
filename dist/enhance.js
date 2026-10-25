@@ -326,7 +326,7 @@ function slideshow() {
   function start(){
     if(lifecycle.signal.aborted)return;
     clearInterval(slideTimer);countdown?.cancel();
-    const canPlay=!paused&&!hovering&&inView&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected;
+    const canPlay=!paused&&!hovering&&inView&&hero.dataset.opening!=='entering'&&!hero.querySelector(':focus-visible')&&!document.hidden&&hero.isConnected;
     hero.dataset.autoplay=canPlay?'running':'idle';
     if(canPlay){
       const bar=hero.querySelector('[data-slide].active .slide-duration');
@@ -361,6 +361,7 @@ function slideshow() {
   hero.addEventListener('focusin',()=>start());
   hero.addEventListener('focusout',()=>queueMicrotask(start));
   document.addEventListener('visibilitychange',start,listenerOptions);
+  document.addEventListener('cartman-opening-change',start,listenerOptions);
   document.querySelectorAll('[data-slide]').forEach(b=>b.innerHTML='<span class="slide-duration" aria-hidden="true"></span>');
   motion.addEventListener('change',()=>{if(!hero.isConnected)return;paused=motion.matches;if(motion.matches){hero.getAnimations({subtree:true}).forEach(a=>a.cancel());hero.querySelectorAll('.hero-image-outgoing').forEach(n=>n.remove())}start()},listenerOptions);
   if('IntersectionObserver' in window){

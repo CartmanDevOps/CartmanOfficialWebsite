@@ -80,21 +80,23 @@
     if(opened||!hero||scrollY>40||preference.matches)return;
     opened=true;
     const entries=[];
-    const enter=(node,delay=0,distance=8,duration=680)=>{
-      const animation=animate(node,[{opacity:.88,translate:`0 ${distance}px`},{opacity:1,translate:'0 0'}],{duration,delay,fill:'backwards'});
+    const entranceEase='cubic-bezier(.22,.61,.36,1)';
+    const enter=(node,delay=0,distance=10,duration=1150)=>{
+      const animation=animate(node,[{opacity:.72,translate:`0 ${distance}px`},{opacity:1,translate:'0 0'}],{duration,delay,easing:entranceEase,fill:'backwards'});
       if(animation)entries.push(animation);
     };
     hero.dataset.opening='entering';
-    enter(hero.querySelector('.hero-content>.eyebrow'),0,4,520);
-    enter(hero.querySelector('.hero-content h1'),35,10,720);
-    enter(hero.querySelector('.hero-content h1>span'),85,4,720);
-    enter(hero.querySelector('.hero-description'),110,7,650);
-    hero.querySelectorAll('.download-badge').forEach((badge,index)=>enter(badge,155+index*45,6,620));
-    enter(hero.querySelector('.hero-web-entry'),210,5,600);
+    document.dispatchEvent(new Event('cartman-opening-change'));
+    enter(hero.querySelector('.hero-content>.eyebrow'),0,5,900);
+    enter(hero.querySelector('.hero-content h1'),80,12,1150);
+    enter(hero.querySelector('.hero-content h1>span'),160,4,1250);
+    enter(hero.querySelector('.hero-description'),240,10,1150);
+    hero.querySelectorAll('.download-badge').forEach((badge,index)=>enter(badge,360+index*90,8,1000));
+    enter(hero.querySelector('.hero-web-entry'),520,6,1000);
     // A solid device settles within its existing safe frame; it never becomes translucent.
-    const phone=animate(hero.querySelector('.hero-phone'),[{translate:'0 8px'},{translate:'0 0'}],{duration:820,delay:100,fill:'backwards'});
+    const phone=animate(hero.querySelector('.hero-phone'),[{translate:'0 8px'},{translate:'0 0'}],{duration:1250,delay:280,easing:entranceEase,fill:'backwards'});
     if(phone)entries.push(phone);
-    Promise.all(entries.map(animation=>animation.finished.catch(()=>{}))).then(()=>{if(hero.isConnected)hero.dataset.opening='ready'});
+    Promise.all(entries.map(animation=>animation.finished.catch(()=>{}))).then(()=>{if(hero.isConnected){hero.dataset.opening='ready';document.dispatchEvent(new Event('cartman-opening-change'))}});
   }
 
   function cleanup(){
