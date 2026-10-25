@@ -80,7 +80,7 @@
     const hero=document.querySelector('.campaign-hero');
     if(opened||!hero||scrollY>40||preference.matches)return;
     opened=true;
-    brandIntro();
+    // Opening brand intro disabled; the hero is immediately available.
     const steps=[['.hero-content>.eyebrow',0,8],['.hero-content h1',65,18],['.hero-description',145,12],['.download-badges',210,10],['.hero-web-entry',270,8]];
     for(const [query,delay,y] of steps)animate(hero.querySelector(query),[{opacity:.12,translate:`0 ${y}px`},{opacity:1,translate:'0 0'}],{duration:760,delay,fill:'backwards'});
     // Opacity only: protected faces, branding and device bounds never drift or zoom.
