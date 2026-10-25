@@ -1,27 +1,73 @@
-# Cartman PH UI/UX MVP
+# Cartman PH — themes and readability update
 
-Run `npm run dev`, then open http://127.0.0.1:4173. No install step is required. The deployable static site is in `dist/`. Run `npm run check` for JavaScript syntax validation.
+Use **Theme** in the header to choose Charcoal, Balanced (50/50 green–black, default), or More green (70/30). The choice persists in this browser. This update also enlarges real interface text and controls, adds dedicated rider/merchant portraits with separate captions, and keeps the app preview flat and aligned while changing its content on every campaign slide. See [implementation notes and portrait prompts](source-assets/EXPERIENCE-UPDATE.md).
 
-## Included
+Latest update: charcoal buttons, ivory/stone surfaces, deeper jade accents, champagne details, the supplied real app icon, and five edited branded photographs. Riders now wear predominantly black uniforms; shirts and black delivery bags carry Cartman PH branding. See [brand assets and generation prompts](source-assets/BRAND-ASSETS.md). The local preview remains at the address below.
 
-Responsive marketing page, three-image campaign carousel with pause and reduced-motion support, services, how it works, booking with illustrative pricing and review, local confirmation and reference tracking, login/signup with customer/rider/merchant roles, recovery preview, account dashboard, rider/merchant interest forms, support, launch interest, about, and prototype privacy/terms.
+Open **http://localhost:4173**. Start or restart with `npm run dev` or `npm start`. No install is required. Set `PORT` to select another port. This iteration is local; it has not replaced the previously published private Site.
 
-All functional data stays in browser localStorage. No password is saved. Authentication, payments, rider dispatch, GPS, notifications, submitted applications, and support delivery require backend integration before public launch. Demo data can be cleared from the privacy page.
+## What changed
 
-## Assets
+- Full-width mint/emerald campaign hero, custom Filipino rider photograph, accessible slideshow, location entry, and a code-native app concept.
+- Four photographic service cards, merchant/rider band, editorial delivery story, three-step explanation, app launch section, FAQ, and complete footer.
+- Service-aware booking, itemized illustrative estimate, recipient validation, local drafts, persistent review, edit/back behavior, and unique booking references.
+- Tracking with an explicitly illustrative route diagram, timeline, reference lookup, empty state, and unknown-reference state.
+- Customer/rider/merchant login previews, password visibility, retained values on role changes, dashboard, and delivery history.
+- Merchant/rider interest journeys, searchable help, support preview, launch interest, recovery, about, privacy, and terms.
+- Responsive layouts, focus handling, skip link, Escape menu behavior, reduced-motion support, live status messages, and mobile input sizes that avoid automatic input zoom.
 
-`dist/assets/cartman-logo.png` is the supplied original brand reference. The UI uses a compact vector brand interpretation, inline stroke service icons, and `favicon.svg`. Campaign photographs were generated with the built-in image generation tool and optimized to WebP. Original PNG masters are retained in the same folder.
+## Source
 
-The two requested UI screenshots were missing at their supplied download paths, so their exact layouts could not be extracted. The supplied logo informed the green/black palette and brand direction.
+- `dist/index.html`: shell and loading hints.
+- `dist/app.js`: shared state, icons, safe text output, routing, and form utilities.
+- `dist/enhance.js`: page views and interaction handlers.
+- `dist/styles.css`: shared base styles.
+- `dist/premium.css`: refined components and responsive layouts.
+- `dist/assets/`: optimized visitor assets.
+- `source-assets/`: original logo and full-resolution generated image masters.
+- `server.mjs`: loopback server with gzip, ETag/304 revalidation, HEAD, MIME types, and document-root checks.
+- `output/`: screenshots and the previous deployment archive; that archive is not the current UI release.
 
-### Campaign prompts (built-in image generation)
+## Live-launch scope
 
-1. **hero-delivery** — Premium photorealistic wide Filipino delivery commercial: friendly courier in emerald green polo and helmet handing a kraft grocery bag with fresh greens and oranges to a smiling Filipino woman outside a warm cream neighborhood home, green scooter and delivery box, tropical plants, golden afternoon light, authentic joyful connection, no text or logos.
-2. **food-moment** — Premium wide lifestyle campaign: three Filipino friends sharing pancit, grilled chicken, rice and calamansi from kraft takeout containers at a cozy modern apartment table, emerald delivery bag, warm sunlight, candid laughter, no text or logos.
-3. **parcel-moment** — Premium wide local business campaign: cheerful Filipino merchant in sage apron wrapping a kraft parcel with green ribbon at a wooden craft-shop counter, cream shelves, green delivery bag, tropical plants, warm natural sunlight, no text or logos.
+This is a frontend preview with local demo behavior. Authentication is not real; passwords are never saved. No payments, delivery dispatch, live GPS, support delivery, email subscriptions, or partner submissions are connected. Quotes, timelines, and maps are illustrative. Use sample details.
 
-For a future video hero, replace the image element inside `.hero-media` with a muted looping inline video and preserve the poster, gradient, campaign text, and accessible pause control.
+The privacy page clears Cartman demo profiles, bookings, drafts, review data, saved location, and interest/support entries. Roles are UI previews, not authorization. Live launch requires server authentication/authorization, an operational backend, real coverage/pricing, payment/dispatch integration, approved legal policies, and final contact information.
 
-## Validation
+## Verification
 
-Browser verification covers the landing page, booking estimate/review/confirmation/tracking, account flow, responsive layout, and generated asset loading. Hosting uses `.openai/hosting.json` and a buildless static deployment.
+`npm run check` checks the server and both application scripts. Browser checks covered 1440 px desktop, 390 px mobile, and 320 px narrow mobile; horizontal overflow; grocery selection and estimate (10 km = illustrative ₱169); draft restoration; review refresh; confirmation; tracking; account navigation; logout/login; retained role-switch inputs; password visibility; help filtering; and mobile merchant layout.
+
+HTTP checks: home 200 with gzip, conditional request 304, hero HEAD 200/image-webp, missing resource 404. The rider hero is approximately 144 KB; service images are 45–82 KB; the original logo is optimized to approximately 18 KB. Below-fold images have lazy loading and explicit dimensions. PNG masters are outside the served folder.
+
+## Asset generation briefs
+
+All photographic assets used the built-in image generation tool. Final served WebP files are in `dist/assets/`; corresponding PNG masters are in `source-assets/`.
+
+- **rider-hero.webp**: Premium 16:9 Philippine delivery commercial. Joyful Filipino courier in emerald/black riding jacket and green helmet on a stationary dark scooter with emerald delivery box, holding a phone, optimistic expression. Soft Manila-style skyline and tropical trees. Subject on right; airy pale mint negative space on left for HTML text. Morning sunlight, realistic commercial photography. No phone mockup, text, letters, logos, or watermark.
+- **service-food.webp**: Grilled chicken rice bowl, jammy egg, tomatoes and greens, iced calamansi drink, kraft takeout container, cream backdrop. Individual 3:2 tabletop advertising photo, natural light, soft tropical greenery, no text/branding/watermark.
+- **service-grocery.webp**: Emerald reusable tote with lettuce, carrots, tomatoes, bananas and glass milk bottle, sage backdrop. Same 3:2 tabletop photography treatment.
+- **service-parcel.webp**: Three stacked kraft shipping boxes of varying sizes, subtle green tape, no labels, warm ivory backdrop. Same 3:2 tabletop photography treatment.
+- **service-errands.webp**: Emerald shopping tote with kraft bag, coffee cup, wrapped bouquet and household package, mint backdrop. Same 3:2 tabletop photography treatment.
+- **hero-delivery.webp** (retained): Filipino courier handing groceries to a customer at a neighborhood home, green scooter, tropical plants, golden afternoon light.
+- **food-moment.webp** (retained): Filipino friends sharing pancit, chicken, rice and calamansi at home, kraft takeout packaging and green delivery bag.
+- **parcel-moment.webp** (retained): Filipino merchant wrapping a kraft parcel with green ribbon in a bright neighborhood craft shop.
+
+The supplied original logo remains in the navigation. Icons and the phone concept are SVG/HTML/CSS. The two screenshots supplied for this refinement guided the updated layout.
+
+## Independent ordering app
+
+Open `http://localhost:4173/order.html` for the standalone customer ordering demo. Landing-page Order online links open it in a separate tab. It includes local sample restaurants/stores, menus, searchable categories, basket and quantity controls, guest checkout, parcel/pabili requests, a local profile, order history, and simulated tracking. Demo data is stored only in this browser under `cm-order-` keys.
+
+The landing page now features App Store and Google Play coming-soon badges. Real store URLs are required before enabling actual downloads. See `source-assets/ORDERING-DEMO.md` for implementation, validation, and generated-image prompts.
+
+## White and Dark appearance
+
+Use Theme on the landing page or Appearance in the ordering app. Both share the saved selection. White is the default; Dark uses black and graphite surfaces, white type, green accents and matching official brand artwork. Menu and service photos have dedicated dark versions. PNG masters and generation prompts are in source-assets/dark and source-assets/DARK-IMAGE-VARIANTS.json; served WebPs are in dist/assets/dark.
+# Vercel deployment
+
+Run `npm ci` and `npm run build` to validate and produce the optimized static site in `build/`. `dist/` remains the editable local preview. Production combines each page's styles and deferred scripts in their existing order, minifies them, and uses content hashes for bundle filenames. Source artwork and review output are excluded from Vercel uploads.
+
+Run `npx vercel --prod` after signing in. `vercel.json` configures the static build output and asset cache headers. The landing page and independent `order.html` demo are both included. First-time visitors see Dark mode; saved White/Dark preferences remain respected. The ordering system is still a browser-local demo.
+
+To inspect the production build locally in PowerShell, set `$env:STATIC_DIR='build'` and `$env:PORT='4180'`, then run `node server.mjs`.

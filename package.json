@@ -1,1 +1,14 @@
-{"name":"cartman-ph","version":"1.0.0","private":true,"scripts":{"dev":"node server.mjs","check":"node --check dist/app.js"}}
+{
+  "name": "cartman-ph",
+  "version": "2.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check dist/app.js && node --check dist/enhance.js && node --check dist/theme.js && node --check dist/order.js && node --check dist/order-services.js && node --check dist/scroll-motion.js",
+    "build": "npm run check && node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

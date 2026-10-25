@@ -1,0 +1,167 @@
+/* Final density and interaction pass, shared by marketing and ordering pages. */
+body[data-page="home"] .section{padding-block:48px}
+body[data-page="home"] .web-order-section{padding-top:0}
+body[data-page="home"] .app-reminder-section{padding-block:26px}
+.page-intro-visual{padding:28px 0 36px;gap:40px}
+.page-intro-visual h1{font-size:clamp(34px,4vw,54px)}
+.page-intro-visual .intro-scene{max-width:470px;justify-self:end}
+.story-section{padding-block:30px;gap:40px}
+.neighborhood-stories{padding-top:34px}
+.journey-guide{gap:20px;padding-bottom:36px}
+.journey-row{padding:20px}
+.request-prep{padding:30px}
+.guide-faq{padding-top:42px;gap:40px}
+.ui-variant .faq summary{min-height:72px;padding:18px 22px;font-size:16px}
+.ui-variant .faq details>p{padding:0 70px 21px 22px}
+.ui-variant .faq{gap:10px}
+.ui-variant :is(a,button,input,textarea,select,summary){scroll-margin-top:110px}
+.ui-variant :is(button,a)[aria-disabled="true"],.ui-variant button:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.partner-role-nav a{transition:background-color 180ms ease,color 180ms ease,box-shadow 180ms ease}
+.partner-role-nav a:focus-visible{outline-offset:-3px}
+.navlinks a{position:relative;border-radius:4px}
+.navlinks>a:not(.mobile-account){display:inline-flex;align-items:center;min-height:44px}
+.ui-variant .navlinks a:focus-visible{outline-offset:5px}
+.order-site :is(.add-button,.dialog-close,.quantity button){min-width:44px;min-height:44px}
+.order-site .dialog-close{display:grid;place-items:center;line-height:1}
+.order-site .filter-row button{min-height:44px}
+.order-site .address-button{min-height:44px;border-radius:8px}
+.order-site .store-info h3{font-size:16px;line-height:1.4}
+.order-site .store-info p{font-size:13px;line-height:1.6}
+.order-site .store-meta{font-size:12px;line-height:1.6}
+.ui-variant .order-site .store-info p{font-size:13px}
+.ui-variant .order-site .store-meta{font-size:12px}
+.order-site :is(.store-card,.menu-card,.service-tabs button){-webkit-tap-highlight-color:transparent}
+.ui-variant .order-site .service-tabs button[aria-pressed="true"] svg{color:var(--ui-accent)}
+.ui-variant .order-site .service-tabs button:focus-visible{outline-offset:-4px}
+.ui-variant .page-value:hover{transform:none}
+.ui-variant .service-card:is(:hover,:focus-visible) .round-arrow{transform:none;background:var(--ui-accent);color:var(--ui-bg)}
+@media(hover:hover) and (pointer:fine){
+ .ui-variant .navlinks a:hover{color:var(--ui-accent)}
+ .partner-role-nav a:not([aria-current]):hover{background:var(--ui-soft);color:var(--ui-ink)}
+ .ui-variant :is(.help-shortcuts>a,.account-mini-services a):hover{border-color:var(--ui-accent);background:var(--ui-raised)}
+ .ui-variant .order-site :is(.add-button,.stop-actions button,.quantity button,.dialog-close):not(:disabled):not([aria-disabled="true"]):hover{background:var(--ui-soft);color:var(--ui-accent);box-shadow:inset 0 0 0 1px var(--ui-accent)}
+ .order-site .address-button:hover{background:var(--ui-soft)}
+}
+@media(prefers-reduced-motion:no-preference){
+ .ui-variant :is(.textlink>svg,.btn>svg){transition:translate 200ms ease}
+ .ui-variant :is(.textlink,.btn):is(:hover,:focus-visible)>svg{translate:3px 0}
+ .ui-variant :is(.btn,.order-site .primary,.order-site .secondary):active{transform:scale(.98)}
+ .ui-variant :is(.help-shortcuts>a,.account-mini-services a){transition:background-color 180ms ease,border-color 180ms ease}
+}
+@media(max-width:700px){
+ .order-site .service-tabs{scrollbar-width:thin;scrollbar-color:var(--ui-line) transparent}
+ .order-site .service-tabs::-webkit-scrollbar{display:block;height:4px}
+ .order-site .service-tabs::-webkit-scrollbar-thumb{background:var(--ui-line);border-radius:4px}
+ #header .nav-actions :is(.menu-toggle,.theme-trigger){width:44px;min-width:44px;min-height:44px}
+ #header .menu-toggle{padding-inline:10px}
+ body[data-page="home"] .section{padding-block:34px}
+ body[data-page="home"] .web-order-section{padding-top:0}
+ body[data-page="home"] .app-reminder-section{padding-block:22px}
+ .page-intro-visual{gap:22px;padding:25px 0 28px}
+ .page-intro-visual .intro-scene{max-width:none;justify-self:stretch}
+ .story-section{gap:18px;padding-block:25px}
+ .journey-row{padding:16px}
+ .request-prep{padding:24px 20px}
+ .guide-faq{padding-top:30px;gap:20px}
+ .ui-variant :is(a,button,input,textarea,select,summary){scroll-margin-top:92px}
+ .ui-variant .faq summary{padding:17px;min-height:72px;font-size:16px;gap:14px}
+ .ui-variant .faq details>p{padding:0 17px 19px;font-size:14px}
+ .ui-variant .order-site .store-info h3{font-size:17px}
+}
+@media(min-width:701px) and (max-width:1000px){#header .menu-toggle{width:44px;min-width:44px;min-height:44px}}
+@media(max-width:380px){.ui-variant header .original-brand{width:100px}.partner-hero-copy>.btn{font-size:13px;padding-inline:16px;gap:10px}}
+
+/* Feedback follows the action: links and controls respond, editorial cards stay still. */
+.ui-variant :is(.textlink,.back-link,.footer-links a,.footer-bottom a,.sidebar-bottom>a,.auth-options>a,.form-foot a,.prose a,.errand-upgrade){text-decoration-thickness:1px;text-underline-offset:5px}
+.ui-variant :is(.theme-trigger,.menu-toggle,.password-toggle,.tabs button,.service-tabs button,.sidebar nav a,.account-sidebar nav a,.account-sidebar nav button,.order-row,.vehicle-option,.cart-toggle,.download-badge,.stop-actions button,.quantity button,.dialog-close,.add-button){transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,box-shadow 180ms ease}
+.ui-variant .password-toggle{border-radius:6px;min-width:44px;min-height:44px;top:5px}
+.ui-variant :is(.help-shortcuts>a,.account-mini-services a,.order-row,.store-card):focus-visible{border-color:var(--ui-accent);background-color:var(--ui-raised)}
+.ui-variant .story-card:focus-within{border-color:var(--ui-accent)}
+.ui-variant .order-site .vehicle-option:has(input:focus-visible){outline:3px solid var(--ui-accent);outline-offset:3px}
+.ui-variant .order-site .vehicle-option:has(input:checked){border-color:var(--ui-accent)}
+.ui-variant :is(.theme-trigger,.menu-toggle)[aria-expanded="true"]{background:var(--ui-soft);border-color:var(--ui-accent);color:var(--ui-ink)}
+.ui-variant :is(.textlink,.back-link,.footer-links a,.footer-bottom a,.sidebar-bottom>a,.auth-options>a,.form-foot a,.prose a,.errand-upgrade):focus-visible{text-decoration-line:underline}
+@media(hover:hover) and (pointer:fine){
+ .ui-variant :is(.textlink,.back-link,.footer-links a,.footer-bottom a,.sidebar-bottom>a,.auth-options>a,.form-foot a,.prose a,.errand-upgrade):hover{text-decoration-line:underline}
+ .ui-variant :is(.theme-trigger,.menu-toggle,.password-toggle):hover{background:var(--ui-soft);color:var(--ui-accent);border-color:var(--ui-accent)}
+ .ui-variant :is(.tabs button:not([aria-pressed="true"]),.service-tabs button:not([aria-pressed="true"]),.sidebar nav a:not([aria-current]),.account-sidebar nav a:not(.selected),.account-sidebar nav button):not(:disabled):hover{background:var(--ui-soft);color:var(--ui-ink)}
+ .ui-variant .order-site :is(.store-card,.order-row,.vehicle-option):hover{border-color:var(--ui-accent)}
+ .ui-variant .order-site .order-row:hover{background:var(--ui-raised)}
+ .ui-variant .cart-toggle:hover{background:var(--ui-action-hover,var(--ui-action));box-shadow:0 3px 12px var(--ui-shadow)}
+}
+@media(prefers-reduced-motion:no-preference){
+ .ui-variant :is(.store-card,.help-shortcuts>a,.account-mini-services a,.download-badge){transition:transform 220ms ease,background-color 180ms ease,border-color 180ms ease,box-shadow 220ms ease}
+ .ui-variant :is(.store-arrow,.order-row>svg){transition:translate 220ms ease}
+ .ui-variant :is(.store-card:focus-visible .store-arrow,.order-row:focus-visible>svg){translate:2px 0}
+ .ui-variant :is(.add-button,.quantity button,.stop-actions button,.dialog-close,.theme-trigger,.menu-toggle,.download-badge,.cart-toggle):not(:disabled):not([aria-disabled="true"]):active{transform:scale(.97)}
+ @media(hover:hover) and (pointer:fine){
+  .ui-variant :is(.store-card,.help-shortcuts>a,.account-mini-services a,.download-badge):hover{transform:translateY(-2px)}
+  .ui-variant :is(.store-card:hover .store-arrow,.order-row:hover>svg){translate:2px 0}
+ }
+}
+/* Disabled controls never inherit hover emphasis from earlier component rules. */
+.ui-variant button:disabled:hover,.ui-variant [aria-disabled="true"]:hover{transform:none;translate:none;box-shadow:none;color:var(--ui-muted);border-color:var(--ui-line)}
+
+/* Compact ordering toolbar: form-label spacing must not affect toolbar alignment. */
+/* The supplied dark wordmark has a baked-in near-black matte. Composite the
+   matte into the header while retaining the white lettering and green mark. */
+:root.ui-variant[data-appearance="black"] header .original-brand img{filter:contrast(1.3);mix-blend-mode:screen}
+.ui-variant .order-site .topbar{height:72px;gap:16px;padding:12px 32px}
+.ui-variant .order-site .top-actions{align-items:center;gap:12px;flex-shrink:0}
+.ui-variant .order-site .top-actions .order-appearance-label{margin:0;align-self:center;display:flex}
+.ui-variant .order-site :is(.order-appearance,.cart-toggle,.address-button){height:44px;min-height:44px;box-sizing:border-box;margin:0}
+.ui-variant .order-site .order-appearance{padding:8px 10px;font-size:13px;line-height:normal}
+.ui-variant .order-site .cart-toggle{padding:8px 14px;gap:9px}
+.ui-variant .order-site .address-button{padding:4px 10px;gap:10px;max-width:100%;min-width:0}
+.ui-variant .order-site .address-button small{line-height:1.2;margin-bottom:4px}
+.ui-variant .order-site .address-button strong{line-height:1.3}
+.ui-variant .order-site .stop-actions button{min-width:44px;min-height:44px}
+@media(max-width:560px){
+ .ui-variant .order-site .topbar{height:68px;padding:10px 12px;gap:8px}
+ .ui-variant .order-site .top-actions{gap:8px}
+ .ui-variant .order-site .address-button{flex:1;padding:4px 0;gap:6px}
+ .ui-variant .order-site .address-button strong{max-width:100%;font-size:12px}
+ .ui-variant .order-site .address-button small{font-size:9px;letter-spacing:1px}
+ .ui-variant .order-site .order-appearance{width:78px;padding:8px 5px;font-size:12px}
+ .ui-variant .order-site .cart-toggle{padding:8px;min-width:64px;gap:6px}
+ .ui-variant .order-site :is(input,textarea,select):not(.order-appearance){font-size:16px}
+ .ui-variant .order-site .sidebar{height:calc(70px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
+ .ui-variant .order-site .app-body{margin-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+ .ui-variant .order-site dialog{max-width:calc(100vw - 24px);max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}
+ .ui-variant .order-site .service-tabs button{flex-shrink:0}
+}
+/* Touch uses immediate color feedback; restrained compression releases smoothly. */
+@media(max-width:767px){
+ /* Match the portrait source ratio, retaining the complete photographed scene. */
+ .campaign-hero[data-scene] .hero-backdrop,.campaign-hero .hero-visual{height:150cqw}
+ .campaign-hero[data-scene] .hero-phone{right:14px;top:calc(150cqw - var(--device-width) * 2 - 18px)}
+ /* The doorstep scene has two faces: place the preview below their eyeline. */
+ .campaign-hero[data-scene="1"]{--device-width:clamp(144px,50cqw,260px)}
+ .campaign-hero .hero-description{min-height:0;line-height:1.65}
+ .campaign-hero .hero-content{padding-bottom:22px}
+ .campaign-hero .campaign-bottom{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 14px 14px;min-height:88px}
+ .campaign-hero .campaign-bottom>span{max-width:100%;text-align:center;line-height:1.5;font-size:10px;letter-spacing:1px;min-height:15px}
+ .campaign-hero .campaign-controls{gap:8px;max-width:100%;justify-content:center}
+ .campaign-hero .campaign-controls button{min-width:44px;min-height:44px;flex-shrink:0;touch-action:manipulation}
+ .campaign-hero .campaign-controls button:focus-visible{outline-offset:-3px}
+}
+@container(max-width:180px){
+ .campaign-hero .hero-device .phone-view[data-phone-page="1"]{gap:2px;padding-block:3px}
+ .phone-view[data-phone-page="1"] .screen-journey-step{min-height:19px}
+ .phone-view[data-phone-page="1"] .screen-map{min-height:42px}
+}
+@media(any-pointer:coarse){
+ .campaign-hero .campaign-controls button:active{background:var(--ui-soft);box-shadow:inset 0 0 0 1px var(--ui-accent);color:var(--ui-accent)}
+ @media(prefers-reduced-motion:no-preference){
+  .campaign-hero .campaign-controls button{transition:transform 160ms ease,background-color 160ms ease,box-shadow 160ms ease}
+  .campaign-hero .campaign-controls button:active{transform:scale(.94)}
+ }
+}
+@media(any-pointer:coarse){
+ .ui-variant :is(.store-card,.service-card,.help-shortcuts>a,.account-mini-services a,.order-row,.vehicle-option,.service-tabs button,.tabs button,.sidebar nav a,.partner-role-nav a,.address-button,.theme-trigger,.menu-toggle,.password-toggle,.quantity button,.stop-actions button,.dialog-close,.add-button):not(:disabled):not([aria-disabled="true"]):active{background-color:var(--ui-soft);border-color:var(--ui-accent);box-shadow:inset 0 0 0 1px var(--ui-accent)}
+ .ui-variant :is(.btn,.primary,.cart-toggle):not(:disabled):active{background:var(--ui-action-hover);color:var(--ui-on-action)}
+ @media(prefers-reduced-motion:no-preference){
+  .ui-variant :is(.store-card,.service-card,.help-shortcuts>a,.account-mini-services a,.order-row,.vehicle-option,.service-tabs button,.tabs button,.sidebar nav a,.partner-role-nav a){transition:transform 160ms ease,background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}
+  .ui-variant :is(.store-card,.service-card,.help-shortcuts>a,.account-mini-services a,.order-row,.vehicle-option,.service-tabs button,.tabs button):not(:disabled):active{transform:scale(.985)}
+ }
+}

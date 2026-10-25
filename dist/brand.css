@@ -1,0 +1,150 @@
+/* Cartman signature palette: carbon, ivory, deep jade, champagne. */
+:root{
+  --green:#245b46;
+  --dark:#1b2420;
+  --lime:#d7c5a2;
+  --cream:#f7f4ec;
+  --ink:#1d2420;
+  --muted:#6c726c;
+  --line:#e2e0d6;
+  --carbon:#1b2420;
+  --jade:#245b46;
+  --champagne:#c3aa7c;
+  --stone:#eeeae0;
+  --shadow:0 12px 40px #292d230b;
+}
+body{background:#fcfbf7}
+#header{background:#fcfbf7f5;border-bottom-color:#e7e4da}
+.btn{background:var(--carbon);color:#fffdf7;border:1px solid #344238;box-shadow:0 3px 8px #1b242008}
+.btn:hover{background:#2c3c32;box-shadow:0 7px 20px #1b24201a}
+.btn:active{transform:translateY(0)}
+.btn.outline{background:transparent;border-color:#bfc4b7;color:#293e32}
+.btn.outline:hover{background:#eeeee5;border-color:#758a78}
+.btn.white{background:#f7f3e9;color:#24392c;border-color:#f7f3e9}
+.btn.white:hover{background:#e8dcc5}
+.btn.light{background:#d7c5a2;color:#1b2420;border-color:#d7c5a2}
+.textlink{color:#245b46}
+.textlink:hover{color:#172f24}
+.campaign-hero{background:#f1eee5}
+.hero-wash{background:linear-gradient(90deg,#f7f4ec 0%,#f7f4ecf5 26%,#f7f4ecc7 39%,#f7f4ec26 59%,transparent 75%)}
+.hero-content h1{color:#18221c}
+.hero-content h1 span{color:#245b46}
+.hero-content .eyebrow{color:#4a5148}
+.hero-content .eyebrow span{color:#46654d}
+.hero-description{color:#596055}
+.hero-proof>span+span{border-color:#c9cbbd}
+.hero-proof svg{color:#526651}
+.location-search{background:#fffef9;border-color:#e8e5d9;box-shadow:0 8px 35px #3d3b290d}
+.campaign-bottom{color:#4b5a4a}
+.campaign-controls .dots button{background:#a9af9b}
+.campaign-controls .dots button.active{background:#2d4f3a}
+.pause-button,.campaign-next{background:#f7f3e6d9;border-color:#b9c2ac;color:#314735}
+.campaign-controls .dots button:focus-visible{outline-color:#8b6c36}
+.live-card{background:#fffdf6;border-color:#e8e4d8;box-shadow:0 12px 40px #292b221a}
+.live-icon{background:#eee9dc;color:#3d5943}
+.mini-progress i{background:#dbd9cd}
+.mini-progress i:nth-child(-n+2){background:#58745a}
+.service-card{border-color:var(--ui-line,#e5e1d5);background:var(--ui-surface,#fffefb)}
+.service-photo{background:#eeeadf}
+.service-number{background:#fcf8eecf;color:#68634f}
+.round-arrow{background:#e8e8dc;color:#3e5540}
+.service-card:hover .round-arrow{background:#273f2f;color:#f8f3e7}
+.service-card:hover{box-shadow:0 12px 28px #4a42290d}
+.together-band{background:#1b2420;border-top:1px solid #354136;border-bottom:1px solid #354136}
+.together-grid h2 span{color:#d4c19d}
+.together-item>svg{color:#c3aa7c}
+.together-item p{color:#bbc7b9}
+.together-item{border-color:#c3aa7c30}
+.editorial-note{background:#fcfaf3;border:1px solid #e9e2d2}
+.editorial-note svg{color:#7a7653}
+.steps-section{background:#f3f1e9}
+.step{background:#fffdf7;border-color:#e5e2d6}
+.step-icon{background:#ece8da;color:#54644c;border:1px solid #e1dccb}
+.step-top>span{color:#c6bea8}
+.app-showcase{background:#ece9de;border:1px solid #e2ddcd}
+.app-copy .eyebrow{color:#6d6c53}
+.app-identity{display:flex;align-items:center;gap:13px;margin-bottom:24px}
+.app-identity>.app-brand-icon{width:56px;height:56px;filter:drop-shadow(0 3px 5px #262e2110)}
+.app-identity strong{display:block;font-family:Manrope,Arial,sans-serif;font-size:15px;letter-spacing:-.5px;font-weight:800;color:#25352a}
+.app-identity span{font-size:6px;letter-spacing:1.5px;color:#72775f;display:block;margin-top:5px}
+.app-preview-scene{background:radial-gradient(circle at 50% 65%,#d5d3bf,transparent 66%)}
+.app-orbit{border-color:#c5c5ad}
+.app-float{background:#fcfaf3;border:1px solid #e4decd}
+.app-float svg{color:#657755}
+.app-benefits,.concept-label{color:#6a735e}
+.app-benefits svg{color:#626d4f}
+.app-phone{background:#fbfaf5;border-color:#1d2520;box-shadow:inset 0 0 0 2px #6e7669,0 20px 35px #1d241e25}
+.phone-island{background:#1d2520}
+.phone-brand{color:#1d2520}
+.phone-brand>span>span{color:#3c6246}
+.app-brand-icon{width:42px;height:42px;display:block;object-fit:contain;flex-shrink:0}
+.phone-brand>.app-brand-icon{width:29px;height:29px;border-radius:7px}
+.phone-categories>div{background:#eceadf;color:#415941;border:1px solid #e3dfd1}
+.phone-categories>div:nth-child(3){background:#eee6d7;color:#8c7042}
+.phone-search{border-color:#e5e1d5;background:#fdfcf8;color:#94917f}
+.phone-promo{background:#223529;color:#fff9ea}
+.phone-promo>span:first-child,.phone-promo-arrow{color:#d7c5a2}
+.phone-bottom{color:#959b87}
+.phone-bottom svg:first-child{color:#3d5c41}
+.faq summary>span{background:#eeece2}
+.faq summary svg{color:#5c694c}
+.closing-section{background:#ece9de;border-top:1px solid #e2ddce}
+.closing-inner .eyebrow{color:#726c52}
+.closing-inner h2 span{color:#4d644c}
+.footer{background:#151e19;border-top:1px solid #343d31}
+.footer-wordmark{display:inline-flex;align-items:center;gap:1px}
+.footer-wordmark>.app-brand-icon{width:42px;height:42px;margin-right:10px;border-radius:10px}
+.footer-wordmark>span{color:#d0b98d}
+.footer p{color:#b9c3b3}
+.footer-origin,.footer-bottom{color:#9bA58e}
+.footer-links{color:#b7c1af}
+.footer-help{color:#c9b68d}
+body:not([data-page=home]) #main{background:#f6f4ee}
+.form-shell,.booking-panel,.booking-summary,.tracking-status,.tracking-visual,.account-sidebar,.bookings-list,.help-shortcuts>a,.partner-benefits>div,.empty-state,.status-card,.prose{border-color:#e4e0d4;background:#fffefa}
+.form-side{background:#ede9dc}
+.form-side .service-icon,.service-icon{background:#e9e6d9;color:#506348}
+.notice{background:#f1eee5;border-color:#e5dfce;color:#676e5c}
+.notice svg{color:#6c7655}
+.field input,.field select,.field textarea{background:#fffefa;border-color:#dedfd2;color:#273027}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:#a3ad93}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#647658;box-shadow:0 0 0 3px #64765813}
+.tabs{background:#eceade}
+.tabs button.active,.partner-tabs .active{background:#fffdf7;color:#3f5a3f}
+.tabs .btn.outline{border-color:transparent}
+.badge{background:#e7eadc;color:#496046}
+.profile-avatar{background:#e8e7d8;color:#3e5b3b}
+.profile-avatar .app-brand-icon{width:40px;height:40px;border-radius:50%}
+.account-banner{background:#e8e7d9;border:1px solid #dedcca}
+.account-banner>svg{color:#c5cbb1}
+.account-banner p{color:#68745d}
+.account-mini-services a{background:#fffdf8;border-color:#e4e0d4}
+.account-sidebar nav .selected{background:#edeade;color:#3e5b3f}
+.account-sidebar nav a:hover,.account-sidebar nav button:hover{background:#f2efe5;color:#3e5b3f}
+.booking-services>button{background:#fffdf7;border-color:#dedfcf;color:#6e7963}
+.booking-services>button.selected{background:#eaeadd;border-color:#6d805d;color:#365533}
+.booking-services>button:hover{background:#f0eee2;border-color:#96a183}
+.form-section-title>span{background:#eae7d8;color:#5d6c49}
+.mobile-book-total{background:#eae7da;border-color:#dcd8c7}
+.mobile-book-total>span{color:#69725a}
+.review-heading .service-icon{background:#edeadc}
+.result{background:#edeedf;border-color:#dde0ca}
+.success-check{background:#dde2cb;color:#536741}
+.auth-story,.partner-story{background:#1b2420}
+.auth-story-wash{background:linear-gradient(180deg,#1b242010,#17231bec)}
+.auth-story-copy .eyebrow,.partner-story .eyebrow{color:#d4c39f}
+.auth-story-copy p,.partner-story p{color:#cad0bf}
+.auth-story-copy>span{color:#d8cfb6}
+.partner-story:after{background:linear-gradient(180deg,transparent 25%,#18221bf2)}
+.waitlist-visual{background:radial-gradient(circle at 50% 50%,#dbd8c4,#efebe0)}
+.waitlist-visual>span{color:#77795f}
+.service-location,.track-search{background:#fffefa;border-color:#dedfd2}
+.route-map{background:#eaeadd}
+.map-block{background:#d9dfca;border-color:#e3e6d6}
+.map-road{background:#fbfaf2;border-color:#e1e1d1}
+.map-label{background:#fffdf4;border-color:#d9dec9;color:#58674b}
+.map-concept{background:#fbf8edcf;color:#6e765c}
+.timeline-item{border-color:#d9ddc9}
+.timeline-item:before{background:#dbdfcc}
+.timeline-item.done:before{background:#61784f;box-shadow:0 0 0 4px #ececdb}
+@media(max-width:950px){.navlinks,.navlinks.open{background:#fcfbf6;border-color:#e2dfd1}.hero-wash{background:linear-gradient(90deg,#f7f4ec 0%,#f7f4ecf0 32%,#f7f4eca1 50%,#f7f4ec10 78%)}.hero-device .phone-brand>.app-brand-icon{width:23px;height:23px}}
+@media(max-width:700px){.campaign-hero{background:#f3f0e7}.hero-wash{background:linear-gradient(180deg,#f3f0e7 0%,#f3f0e7 43%,#f3f0e7bb 53%,#f3f0e700 70%)}.campaign-bottom{background:#f3f0e7}.hero-device .phone-brand>.app-brand-icon{width:20px;height:20px}.auth-story-wash{background:linear-gradient(90deg,#1b2420e0,#1b242038)}.together-item,.together-item:last-child{border-color:#c3aa7c30}.footer-wordmark>.app-brand-icon{width:37px;height:37px}.footer-wordmark{font-size:25px}}

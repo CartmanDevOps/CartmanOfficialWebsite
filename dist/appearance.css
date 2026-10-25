@@ -1,0 +1,94 @@
+/* Shared Cartman appearance system: neutral surfaces, selective brand green. */
+.hero-style-detail{display:none}
+.theme-panel{max-height:calc(100dvh - 105px);overflow:auto;overscroll-behavior:contain}
+.appearance-label,.palette-label{display:block;font-size:12px;font-weight:700;letter-spacing:.3px;margin:17px 0 9px;color:#36523b}
+.theme-panel select{display:block;width:100%;min-height:48px;padding:11px 36px 11px 12px;border:1px solid #a3b499;border-radius:9px;background:#f0f3e8;color:#203c2c;font-size:15px;font-weight:600;cursor:pointer}
+.theme-panel #appearance-note{font-size:12px;line-height:1.6;min-height:38px;margin:8px 0 18px;color:#61705c}
+.palette-label{padding-top:15px;border-top:1px solid #dce3d3}
+:root.ui-variant{--ink:var(--ui-ink);--muted:var(--ui-muted);--line:var(--ui-line);--cream:var(--ui-bg);--theme-hero:var(--ui-hero);--theme-accent:var(--ui-accent);--theme-soft:var(--ui-soft);--theme-soft-border:var(--ui-line)}
+.ui-variant body{background:var(--ui-bg);color:var(--ui-ink)}
+.ui-variant body #main{background:radial-gradient(ellipse at 4% 4%,var(--ui-glow),transparent 45%),radial-gradient(ellipse at 100% 70%,var(--ui-warm),transparent 45%)}
+.ui-variant #header{background:var(--ui-header);border-bottom-color:var(--ui-line)}
+.ui-variant .navlinks a,.ui-variant .nav-actions .account-link{color:var(--ui-ink)}
+.ui-variant .navlinks a[aria-current="page"]{color:var(--ui-accent)}
+.ui-variant .navlinks.open{background:var(--ui-raised);border-color:var(--ui-line)}
+.ui-variant .menu-toggle{color:var(--ui-ink)}
+.ui-variant .menu-toggle>span{background:var(--ui-ink)}
+.ui-variant .theme-trigger{background:var(--ui-surface);border-color:var(--ui-line);color:var(--ui-ink)}
+.ui-variant .theme-panel{background:var(--ui-raised);color:var(--ui-ink);border-color:var(--ui-line);box-shadow:0 20px 60px var(--ui-shadow)}
+.ui-variant .theme-panel>p,.ui-variant .theme-panel #appearance-note,.ui-variant .theme-panel [data-theme-choice] small{color:var(--ui-muted)}
+.ui-variant .appearance-label,.ui-variant .palette-label{color:var(--ui-ink);border-color:var(--ui-line)}
+.ui-variant .theme-panel select{background:var(--ui-soft);border-color:var(--ui-line);color:var(--ui-ink)}
+.ui-variant .theme-panel [data-theme-choice]{background:var(--ui-surface);border-color:var(--ui-line);color:var(--ui-ink)}
+.ui-variant .theme-panel [data-theme-choice]:hover,.ui-variant .theme-panel [data-theme-choice][aria-pressed="true"]{background:var(--ui-soft);border-color:var(--ui-accent)}
+.ui-variant main :is(h1,h2,h3){color:var(--ui-ink)}
+.ui-variant main p{color:var(--ui-muted)}
+.ui-variant .eyebrow{color:var(--ui-accent)}
+.ui-variant .campaign-hero .hero-content{position:relative;isolation:isolate}
+.ui-variant .campaign-hero .hero-content:before{content:'';position:absolute;inset:0 -15px 0 -35px;pointer-events:none;z-index:-1;opacity:.5;background:radial-gradient(ellipse at 40% 40%,var(--ui-glow),transparent 68%),radial-gradient(ellipse at 60% 65%,var(--ui-warm),transparent 65%)}
+.ui-variant .hero-content .eyebrow span{color:var(--ui-accent)}
+.ui-variant .page-intro .intro-copy>p{color:var(--ui-muted)}
+.ui-variant .story-heading h2>span,.ui-variant .password-toggle{color:var(--ui-accent)}
+.ui-variant .theme-option-check{color:var(--ui-accent)}
+.ui-variant .campaign-hero .hero-content h1{color:var(--ui-ink)}
+.ui-variant .campaign-hero .hero-content h1 span{color:var(--ui-accent)}
+.ui-variant .hero-description,.ui-variant .hero-web-entry>small{color:var(--ui-muted)}
+.ui-variant .hero-web-entry>span{color:var(--ui-ink)}
+.ui-variant .hero-style-detail{display:flex;align-items:center;gap:9px;margin-top:25px;font-size:11px;font-weight:600;letter-spacing:.4px;color:var(--ui-accent)}
+.ui-variant .hero-style-detail>svg{width:16px;height:16px;flex-shrink:0}
+.ui-variant .hero-style-detail>i{height:1px;width:70px;background:linear-gradient(90deg,var(--ui-detail),transparent);transform-origin:left}
+.ui-variant .campaign-hero .campaign-bottom{border-color:var(--ui-line)}
+.ui-variant .campaign-bottom>span{color:var(--ui-accent)}
+.ui-variant .campaign-controls :is(.pause-button,.campaign-next){background:var(--ui-surface);color:var(--ui-ink);border-color:var(--ui-line)}
+.ui-variant .campaign-controls .dots button:after{background:var(--ui-line)}
+.ui-variant .slide-duration{background:var(--ui-accent)}
+.ui-variant .btn.outline{color:var(--ui-accent);border-color:var(--ui-line)}
+.ui-variant .btn.outline:hover{background:var(--ui-soft)}
+.ui-variant .textlink,.ui-variant .textlink:hover{color:var(--ui-accent)}
+.ui-variant .service-card{position:relative;background:var(--ui-surface);border-color:var(--ui-line);box-shadow:0 10px 26px var(--ui-shadow);overflow:hidden}
+.ui-variant .service-card:after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ui-detail),var(--ui-accent));transform:scaleX(0);transform-origin:left;transition:transform 400ms cubic-bezier(.2,.75,.25,1)}
+.ui-variant .service-card:is(:hover,:focus-visible):after{transform:scaleX(1)}
+.ui-variant .service-number{background:var(--ui-raised);color:var(--ui-ink);border:1px solid var(--ui-line)}
+.ui-variant :is(.step,.app-reminder,.web-order-panel,.story-card,.journey-row,.intro-scene,.form-shell,.booking-panel,.status-card,.account-sidebar,.empty-state,.prose,.track-search,.tracking-status,.help-shortcuts>a){background:var(--ui-surface);border-color:var(--ui-line);box-shadow:0 10px 30px var(--ui-shadow)}
+.ui-variant :is(.page-value,.request-prep,.help-questions,.page-intro-community,.page-next,.partner-benefits>div,.account-banner,.service-location,.catalog-note,.form-side,.waitlist-visual){background:linear-gradient(130deg,var(--ui-soft),var(--ui-surface));border-color:var(--ui-line);color:var(--ui-ink)}
+.ui-variant .page-value:nth-child(2),.ui-variant .partner-benefits>div:nth-child(2),.ui-variant .help-shortcuts>a:nth-child(2){background:var(--ui-raised)}
+.ui-variant :is(.intro-details>span,.page-value>div,.prep-grid>article>svg,.help-shortcuts>a>svg,.partner-benefits>div>svg){color:var(--ui-accent)}
+.ui-variant .intro-scene>figcaption{background:var(--ui-surface);color:var(--ui-muted)}
+.ui-variant .story-section,.ui-variant .prep-grid>article{border-color:var(--ui-line)}
+.ui-variant .prep-grid ul{color:var(--ui-muted)}
+.ui-variant .prep-grid li::marker{color:var(--ui-accent)}
+.ui-variant .journey-image>span{background:var(--ui-raised);color:var(--ui-accent)}
+.ui-variant :is(.faq details,.help-questions .faq details,.guide-faq .faq details){background:var(--ui-surface);border-color:var(--ui-line);color:var(--ui-ink)}
+.ui-variant .faq summary,.ui-variant .faq details[open] summary{color:var(--ui-ink)}
+.ui-variant .faq details>p{color:var(--ui-muted)}
+.ui-variant :is(.form-content,.auth-main,.tabs,.auth-main .tabs){background:var(--ui-surface);color:var(--ui-ink)}
+.ui-variant :is(.field input,.field textarea,.field select,.help-search input,.track-search input,.password-field){background:var(--ui-bg);border-color:var(--ui-line);color:var(--ui-ink)}
+.ui-variant input::placeholder,.ui-variant textarea::placeholder{color:var(--ui-muted);opacity:.8}
+.ui-variant :is(.field,.form-foot,.auth-options,.auth-options>a,.check,.form-foot a,.back-link){color:var(--ui-ink)}
+.ui-variant :is(.notice,.auth-demo,.platform-note,.tabs .active,.tabs button.active,.badge,.result,.booking-services>button.selected){background:var(--ui-soft);color:var(--ui-ink);border-color:var(--ui-line)}
+.ui-variant :is(.tabs a,.tabs button){color:var(--ui-muted)}
+.ui-variant :is(.tabs .active,.tabs button.active){color:var(--ui-ink);box-shadow:0 3px 10px var(--ui-shadow)}
+.ui-variant .browser-chrome{background:var(--ui-raised);color:var(--ui-muted);border-color:var(--ui-line)}
+.ui-variant .community-symbol>svg{background:var(--ui-raised);color:var(--ui-accent)}
+.ui-variant .community-symbol>svg:nth-child(2){background:var(--ui-soft)}
+.ui-variant main :is(.together-grid h2,.together-item h3,.auth-story-copy h2,.partner-story h3){color:#fffdf0}
+.ui-variant main :is(.together-item p,.auth-story-copy p,.partner-story p){color:#e1ecd7}
+.ui-variant .web-order-panel small,.ui-variant .app-identity span,.ui-variant .catalog-note p{color:var(--ui-muted)}
+.ui-variant :is(.btn,.download-badge){border-color:color-mix(in srgb,var(--theme-action) 70%,#bdd7a3)}
+.ui-variant .btn{border-color:color-mix(in srgb,var(--ui-accent) 65%,var(--theme-action))}
+.ui-variant .download-badge{background:#193629;color:#fffdf0}
+.ui-variant .faq-section{background:var(--ui-bg);border-color:var(--ui-line)}
+.ui-variant .web-order-section{background:transparent}
+.ui-variant :is(.service-card,.step,.page-value,.story-card,.journey-row,.page-next){transition:background-color 240ms ease,border-color 240ms ease,box-shadow 240ms ease,transform 240ms var(--motion-ease)}
+@media(prefers-reduced-motion:no-preference){
+ .ui-variant .hero-style-detail>i{animation:signature-line 900ms cubic-bezier(.2,.75,.25,1) both}
+
+ .ui-variant .story-card:hover{box-shadow:0 16px 36px var(--ui-shadow);border-color:var(--ui-detail)}
+ @keyframes signature-line{from{transform:scaleX(0);opacity:.3}to{transform:scaleX(1);opacity:1}}
+}
+@media(max-width:700px){
+ .theme-panel{max-height:calc(100dvh - 102px)}
+ .ui-variant .hero-style-detail{font-size:10px;margin-top:20px;gap:8px}.ui-variant .hero-style-detail>i{width:45px}
+ .ui-variant .campaign-hero .hero-content:before{inset:0;opacity:.9;border-radius:0}
+}
+@media(prefers-reduced-motion:reduce){.ui-variant .service-card:after,.ui-variant :is(.service-card,.step,.page-value,.story-card,.journey-row,.page-next){transition:none}.ui-variant .page-value:hover{transform:none}}

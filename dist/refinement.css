@@ -1,0 +1,143 @@
+/* Full-bleed campaign; dedicated mobile photography reserves space for the phone. */
+.campaign-hero{--media-height:clamp(700px,44vw,900px);--device-width:clamp(280px,20vw,310px);position:relative;display:block;container-type:inline-size;background:var(--theme-hero);border-bottom:1px solid var(--theme-border,#dce5d5);isolation:isolate;overflow:hidden}
+.campaign-hero{touch-action:pan-y}
+.hero-picture{display:contents}
+.campaign-hero[data-scene] .hero-backdrop{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:70% top;transform:none;mask-image:none;z-index:-3}
+.campaign-hero[data-scene="1"] .hero-backdrop{object-position:60% top}
+.campaign-hero[data-scene="2"] .hero-backdrop{object-position:center top}
+.campaign-hero .hero-wash{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,var(--theme-hero) 0%,color-mix(in srgb,var(--theme-hero) 95%,transparent) 23%,color-mix(in srgb,var(--theme-hero) 65%,transparent) 34%,transparent 55%)}
+.campaign-hero .hero-layout{width:100%;max-width:none;padding:0 6px 0 max(40px,calc((100% - 1280px)/2));display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;min-height:var(--media-height)}
+.campaign-hero .hero-content{max-width:550px;padding:64px 26px 48px 0;align-self:center}
+.campaign-hero .hero-content h1{font-size:clamp(64px,6.2vw,92px);letter-spacing:-4.8px;line-height:1.08;padding-bottom:2px}
+.campaign-hero .hero-visual{position:relative;height:var(--media-height);width:100%;align-self:stretch;margin:0;background:transparent;border:0;overflow:visible;pointer-events:none}
+.campaign-hero[data-scene] .hero-phone{position:absolute;right:0;left:auto;top:60px;bottom:auto;transform:none;transform-origin:right top;filter:drop-shadow(0 20px 24px #152d2335);transition:top .65s cubic-bezier(.2,.7,.2,1),left .65s cubic-bezier(.2,.7,.2,1),right .65s cubic-bezier(.2,.7,.2,1)}
+.campaign-hero[data-scene="1"] .hero-phone{top:110px}
+.campaign-hero[data-scene="2"] .hero-phone{top:88px}
+.campaign-hero .download-badges{gap:10px}.campaign-hero .download-badge{padding:12px 14px;gap:10px}
+.campaign-hero .hero-device{width:var(--device-width);height:calc(var(--device-width) * 2);container-type:inline-size;box-shadow:inset 0 0 0 1px #8d9b8b,0 3px 0 #0d2018;border-color:#20322a}
+.campaign-bottom{position:relative;min-height:62px}.campaign-bottom>span{color:var(--theme-action)}
+@media(max-width:1350px){
+ .campaign-hero{--media-height:780px;--device-width:240px;display:grid;grid-template-columns:1fr;grid-template-rows:auto var(--media-height) auto}
+ .campaign-hero .hero-layout{display:contents}
+ .campaign-hero .hero-content{grid-column:1;grid-row:1;max-width:none;padding:38px 40px 30px;background:var(--theme-hero);z-index:2}
+ .campaign-hero .hero-content h1{font-size:72px}.campaign-hero .hero-description{font-size:18px;max-width:none;margin-bottom:22px}
+ .campaign-hero .hero-wash{display:none}
+ .campaign-hero[data-scene] .hero-backdrop{position:relative;inset:auto;grid-column:1;grid-row:2;width:100%;height:var(--media-height);object-position:69% top;z-index:0}
+ .campaign-hero[data-scene="1"] .hero-backdrop{object-position:55% top}.campaign-hero[data-scene="2"] .hero-backdrop{object-position:center top}
+ .campaign-hero .hero-visual{grid-column:1;grid-row:2;z-index:1}
+ .campaign-hero[data-scene] .hero-phone{right:6px;top:296px;left:auto;transform:none}
+ .campaign-hero[data-scene="1"] .hero-phone{top:296px}
+ .campaign-hero[data-scene="2"] .hero-phone{top:296px}
+ .campaign-hero .campaign-bottom{grid-row:3;grid-column:1;width:100%;max-width:none;padding-left:40px;padding-right:40px;background:var(--theme-hero)}
+}
+@media(max-width:767px){
+ .campaign-hero[data-scene]{--device-width:clamp(160px,54cqw,260px);--media-height:150cqw;grid-template-rows:auto auto auto}
+ .campaign-hero .hero-content{padding:32px 22px 26px}.campaign-hero .hero-content h1{font-size:clamp(52px,12vw,74px);letter-spacing:-3px}
+ .campaign-hero .hero-description{font-size:16px;line-height:1.65;min-height:53px;margin-bottom:22px}
+ .campaign-hero[data-scene] .hero-backdrop,.campaign-hero .hero-visual{height:150cqw}
+ .campaign-hero[data-scene] .hero-backdrop{object-position:center top}
+ .campaign-hero[data-scene] .hero-phone{right:6px;left:auto;top:calc(150cqw - var(--device-width) * 2 - 12px);transform:none}
+ .campaign-hero .hero-device{border-radius:30px}
+ .campaign-hero .campaign-bottom{padding-left:20px;padding-right:20px;height:auto;padding-top:12px;padding-bottom:12px}
+ .hero-web-entry{margin-top:18px;margin-bottom:0}
+}
+@media(max-width:360px){.campaign-hero .hero-content{padding-left:18px;padding-right:18px}.campaign-hero .hero-content h1{font-size:52px}.download-badge{gap:8px;padding-left:12px;padding-right:12px}}
+@media(min-width:1351px) and (max-width:1390px){.campaign-hero[data-scene="1"] .hero-backdrop{object-position:right top}}
+.btn,.textlink,.theme-trigger,.download-badge{transition:background-color .22s,color .22s,box-shadow .22s,transform .22s}
+.btn:hover{box-shadow:0 5px 15px #163d2618;transform:translateY(-2px)}.btn:active,.download-badge:active{transform:translateY(0)}
+.textlink>svg{transition:transform .22s}.textlink:hover>svg{transform:translateX(3px)}
+.service-card{transition:border-color .25s,box-shadow .25s,transform .25s}.service-card:hover,.service-card:focus-visible{transform:translateY(-4px);box-shadow:0 12px 26px #1e382411;border-color:color-mix(in srgb,var(--theme-action) 38%,transparent)}
+.service-photo{overflow:hidden}.service-photo>img{transition:transform .55s cubic-bezier(.2,.7,.2,1)}.service-card:hover .service-photo>img,.service-card:focus-visible .service-photo>img{transform:scale(1.035)}
+.faq summary{transition:color .2s}.faq details[open] summary{color:var(--theme-action)}.faq details[open]>p{animation:answer-enter .25s ease-out}@keyframes answer-enter{from{opacity:.3;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Text metrics and in-bounds transitions keep fine details intact. */
+.campaign-hero .hero-content h1{line-height:1.08;padding-bottom:2px}
+main h2{line-height:1.22}
+.screen-store>span,.screen-shopping-row>span{min-width:0}
+.screen-store strong,.screen-store small{overflow-wrap:anywhere}
+/* Six service cards: clear discovery for delivery, errands, and LIFT. */
+.photo-services{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+@media(max-width:950px){.photo-services{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* One consistent frame keeps the six service photographs balanced at every width. */
+.photo-services .service-photo{height:auto;aspect-ratio:16/10}
+.photo-services .service-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+
+.campaign-controls .dots{gap:0}.campaign-controls .dots button,.campaign-controls .dots button.active{position:relative;width:44px;height:44px;padding:0;background:transparent;overflow:hidden;isolation:isolate}
+.campaign-controls .dots button:before{content:none}.campaign-controls .dots button:after{content:'';position:absolute;width:12px;height:6px;left:16px;top:19px;border-radius:6px;background:color-mix(in srgb,var(--theme-action) 30%,#fff)}
+.campaign-controls .dots button.active:after{width:32px;left:6px}.slide-duration{position:absolute;left:6px;top:19px;width:32px;height:6px;z-index:1;background:var(--theme-action);transform:scaleX(0);transform-origin:left;border-radius:6px}.campaign-controls .dots button:not(.active) .slide-duration{display:none}
+.screen-shop-feature{background:#183822}.screen-shop-feature>img{object-fit:cover;object-position:center}.screen-stores{padding-bottom:6px}
+/* Size the app preview to the device, rather than the browser viewport. */
+@container(max-width:245px){
+ .campaign-hero .hero-device .phone-top{height:25px}
+ .campaign-hero .hero-device .showcase-content{padding:3px 9px 2px}
+ .campaign-hero .hero-device .showcase-content>.phone-appbar{height:24px;min-height:24px;padding-bottom:3px}
+ .phone-appbar .app-brand-icon{width:19px;height:19px}.phone-appbar>strong{font-size:8px}.screen-demo{font-size:5px}
+ .campaign-hero .hero-device .showcase-content>.phone-view{gap:4px;padding:7px 0 5px}
+ .screen-title{font-size:19px}.screen-head>span{font-size:6px;margin-top:5px}.screen-services>span{padding:5px 1px;font-size:5px;gap:3px}.screen-services svg{width:15px;height:15px}
+ .screen-food-feature{height:60px}.screen-food-feature strong{font-size:14px}.screen-food-feature>span{top:9px;left:9px;font-size:4px}
+ .screen-section-heading strong{font-size:7px}.screen-section-heading>span{font-size:5px}.screen-store{min-height:26px;gap:6px}.screen-store>img{width:29px;height:25px}.screen-store strong{font-size:7px}.screen-store small{font-size:5px}
+ .campaign-hero .hero-device .showcase-content>.screen-navigation{height:29px;min-height:29px;padding:6px 2px 2px}.screen-navigation svg{width:12px;height:12px}.screen-navigation small{font-size:4px}
+ .screen-map{min-height:64px;max-height:105px}.screen-map-label{font-size:4px}.screen-tracking>.screen-section-heading{margin-bottom:3px}.screen-journey-step{min-height:25px;gap:6px}.screen-journey-step>i{width:16px;height:16px;font-size:7px}.screen-journey-step strong{font-size:7px}.screen-journey-step small{font-size:5px}.screen-progress{height:3px;margin-top:6px}
+ .screen-care{padding:6px}.screen-care>span{font-size:6px}.screen-care small{font-size:4px}.screen-care>svg{width:13px;height:13px}
+ .screen-shop-feature{height:58px}.screen-shop-feature strong{font-size:12px}.screen-shop-feature>span{font-size:4px}
+ .screen-shopping-row{min-height:25px}.screen-shopping-row strong{font-size:7px}.screen-shopping-row small{font-size:5px}.screen-shopping-row>b{font-size:7px}.screen-shopping-row>i{width:12px;height:12px;font-size:6px}
+ .screen-budget{padding-top:6px}.screen-budget>span{font-size:7px}.screen-budget strong{font-size:9px}.screen-budget>small{font-size:4px}.screen-request{padding:8px 9px;font-size:7px}.screen-preview-note{font-size:5px}
+}
+@container(max-width:180px){
+ .campaign-hero .hero-device .showcase-content{padding:2px 6px}
+ .campaign-hero .hero-device .showcase-content>.phone-appbar{height:20px;min-height:20px;padding-bottom:2px}
+ .phone-appbar .app-brand-icon{width:16px;height:16px}.phone-appbar>strong{font-size:7px}.screen-demo{font-size:4px;padding:2px 3px}
+ .campaign-hero .hero-device .showcase-content>.phone-view{gap:3px;padding:4px 0}.phone-page-kicker,.phone-page-kicker>span{font-size:4px}.screen-title{font-size:15px;letter-spacing:-.5px}.screen-head>span{font-size:5px;margin-top:3px}
+ .screen-services{gap:3px}.screen-services>span{padding:3px 1px;font-size:4px;gap:2px}.screen-services svg{width:12px;height:12px}
+ .screen-food-feature{height:45px}.screen-food-feature strong{font-size:11px;line-height:1.15;margin-top:3px}.screen-food-feature>span{top:6px;left:7px;font-size:3px}
+ .screen-section-heading strong{font-size:6px}.screen-section-heading>span{font-size:4px}.screen-store{min-height:23px;gap:4px}.screen-store>img{width:24px;height:21px}.screen-store strong{font-size:6px}.screen-store small{font-size:4px}
+ .campaign-hero .hero-device .showcase-content>.screen-navigation{height:25px;min-height:25px;padding-top:4px}.screen-navigation>span{min-width:23px}.screen-navigation svg{width:10px;height:10px}
+ .screen-map{min-height:45px;max-height:68px}.screen-journey-step{min-height:21px}.screen-journey-step strong{font-size:6px}.screen-journey-step small{font-size:4px}.screen-care{padding:4px}.screen-care>span{font-size:5px}
+ .screen-shop-feature{height:42px}.screen-shop-feature strong{font-size:10px}.screen-shop-feature>span{bottom:5px;left:6px;font-size:3px}.screen-shopping>.screen-section-heading{margin-bottom:2px}.screen-shopping-row{min-height:20px}.screen-shopping-row strong{font-size:6px}.screen-shopping-row small{font-size:4px}.screen-shopping-row>b{font-size:6px}.screen-budget{padding-top:3px}.screen-budget>span{font-size:6px}.screen-budget strong{font-size:8px}.screen-request{font-size:6px;padding:6px 7px}.screen-preview-note{font-size:4px}
+}
+@media(prefers-reduced-motion:reduce){.campaign-hero[data-scene] .hero-phone,.btn,.textlink,.textlink>svg,.download-badge,.service-card,.service-photo>img,.campaign-controls button{transition:none!important}.faq details[open]>p{animation:none}.slide-duration{transform:scaleX(1)}.btn:hover,.service-card:hover,.service-card:focus-visible,.service-card:hover .service-photo>img{transform:none}}
+
+/* Food-led app showcase. Container units follow the device, not the viewport. */
+.campaign-hero .hero-device .phone-view[data-phone-page="0"]{gap:2.5cqw;padding-top:3cqw}
+.phone-view[data-phone-page="0"] .screen-title{font-size:8.5cqw;line-height:1.06;letter-spacing:-.04em}
+.phone-view[data-phone-page="0"] .screen-head>span{font-size:2.8cqw;margin-top:2cqw}
+.screen-photo-services{gap:2cqw}
+.screen-photo-services>span{padding:0 0 2cqw;gap:1.6cqw;background:#f1f1e6;border:1px solid #e9ebdf;overflow:hidden;font-size:2.8cqw;font-weight:700;border-radius:3cqw;color:#294b37}
+.screen-photo-services>span>img{display:block;width:100%;height:14cqw;object-fit:cover}
+.screen-craving{height:34cqw;border-radius:3cqw;background:#ede9d5}
+.screen-craving>img{width:100%;height:100%;margin:0;object-fit:cover;object-position:65% center}
+.screen-craving:after{background:linear-gradient(90deg,#102c20e8,#102c2080 45%,transparent 78%)}
+.screen-craving>span{left:3.5cqw;top:4cqw;font-size:1.9cqw;letter-spacing:.08em;color:#e2e9cc}
+.screen-craving strong{font-size:6.1cqw;line-height:1.12;letter-spacing:-.04em;color:#fffdf0;margin-top:2cqw}
+.screen-craving small{display:flex;align-items:center;gap:1.5cqw;margin-top:3cqw;font-size:2.4cqw;letter-spacing:0;font-weight:700;color:#f0f4df}
+.screen-craving small>svg{width:3cqw;height:3cqw}
+.screen-meals{display:flex;flex-direction:column;gap:2cqw;min-height:0;flex-shrink:0}
+.screen-meals .screen-section-heading strong{font-size:3.4cqw}
+.screen-meals .screen-section-heading>span{font-size:2.5cqw}
+.screen-meal-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5cqw}
+.screen-meal{min-width:0;overflow:hidden;border:1px solid #e9eadf;border-radius:3cqw;background:#fff}
+.screen-meal-photo{height:30cqw;position:relative;overflow:hidden;background:#eee9db}
+.screen-meal-photo>img{width:100%;height:100%;display:block;object-fit:cover}
+.screen-meal-photo>span{position:absolute;bottom:1.5cqw;left:1.5cqw;background:#fffef5f2;color:#31583e;border-radius:1.5cqw;padding:1cqw 1.3cqw;font-size:2.1cqw;font-weight:700}
+.screen-meal>strong{display:block;font-size:3.3cqw;line-height:1.3;letter-spacing:-.02em;padding:2cqw 2cqw 0}
+.screen-meal>small{display:block;color:#7a806d;font-size:2.3cqw;line-height:1.4;margin:1cqw 2cqw 0}
+.screen-meal>div:last-child{display:flex;align-items:center;justify-content:space-between;padding:1.7cqw 2cqw 2cqw}
+.screen-meal b{font-size:3.2cqw;color:#285d3b}
+.screen-meal i{display:grid;place-items:center;width:6cqw;height:6cqw;border-radius:50%;background:#e9f0df;color:#2d603e;font-size:4.4cqw;font-style:normal;line-height:1}
+.screen-menu-note{font-size:2.1cqw;line-height:1.4;text-align:center;color:#858974}
+.screen-delivery-meal{gap:3cqw;padding:2.5cqw;border:1px solid #e1e8d6}
+.screen-delivery-meal>img{width:20cqw;height:20cqw;object-fit:cover;border-radius:2cqw;flex-shrink:0}
+.screen-delivery-meal>span{font-size:3.2cqw;font-weight:700}
+.screen-delivery-meal small{font-size:2.6cqw;margin-top:1.5cqw;font-weight:400}
+.screen-delivery-meal b{display:flex;align-items:center;gap:1cqw;font-size:2.2cqw;font-weight:500;color:#52764a;margin-top:2cqw}
+.screen-delivery-meal b>svg{width:3cqw;height:3cqw}
+.hero-device .screen-shop-feature{height:34cqw;background:#c4b392;border-radius:3cqw}
+.hero-device .screen-shop-feature>img{width:100%;height:100%;object-fit:cover;object-position:center 46%;display:block}
+.hero-device .screen-shop-feature:after{background:linear-gradient(90deg,#102c20b8,transparent 72%),linear-gradient(0deg,#102c20a6,transparent 70%)}
+.hero-device .screen-shop-feature>span{left:3cqw;bottom:3cqw;top:auto;font-size:2cqw;line-height:1.4;letter-spacing:.07em;max-width:65%;color:#f3f1dd}
+.hero-device .screen-shop-feature strong{font-size:6cqw;line-height:1.2;letter-spacing:-.035em;margin-top:1cqw;color:#fffdf2}
+.screen-shopping-row>.screen-product-photo{width:13cqw;height:13cqw;display:block;object-fit:cover;flex-shrink:0;border-radius:2.5cqw;border:1px solid #e9e5d8;background:#f4f0e6}
+@container(max-width:180px){
+ .campaign-hero .hero-device .phone-view[data-phone-page="0"]{gap:1.8cqw}
+ .screen-craving{height:32cqw}
+}

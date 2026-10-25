@@ -3,3 +3,10 @@ node_modules/
 *.tar.gz
 *.tgz
 output/
+build/
+.vercel/
+.openai/
+source-assets/
+.env
+.env.*
+!.env.example
