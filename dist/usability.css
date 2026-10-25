@@ -313,3 +313,14 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
  .campaign-hero .download-badge small{font-size:9px}
  .campaign-hero .campaign-bottom{grid-row:auto;grid-column:auto;background:var(--theme-hero)}
 }
+
+/* Dark campaign: retain contrast behind copy without blanketing the photo. */
+@media(min-width:1200px){
+ :root[data-appearance="black"] .campaign-hero .hero-wash{background:linear-gradient(90deg,#0b0c0ec7 0%,#0b0c0eb8 22%,#0b0c0e9e 34%,#0b0c0e38 44%,transparent 55%)}
+ :root[data-appearance="black"] .campaign-hero .hero-description{color:#e4e8ec;text-shadow:0 1px 8px #0008}
+ :root[data-appearance="black"] .campaign-hero .hero-content h1{text-shadow:0 2px 16px #0003}
+ :root[data-appearance="black"] .campaign-hero .hero-web-entry,:root[data-appearance="black"] .campaign-hero .hero-style-detail{color:#e4e8ec;text-shadow:0 1px 6px #0009}
+}
+@media(min-width:1200px) and (max-width:1350px){
+ :root[data-appearance="black"] .campaign-hero .hero-wash{background:linear-gradient(90deg,#0b0c0ec7,#0b0c0eb3 18%,#0b0c0e87 30%,#0b0c0e26 40%,transparent 49%)}
+}
