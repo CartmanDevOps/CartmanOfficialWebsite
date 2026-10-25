@@ -252,14 +252,13 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
 /* A staged brand reveal, with finite compositor-friendly motion. */
 .brand-intro{position:fixed;inset:0;z-index:300;display:grid;place-items:center;overflow:hidden;background:#080a0b;color:#f5f7f6;pointer-events:none;isolation:isolate}
 .brand-intro:before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 45%,#43d48719,transparent 54%);animation:brand-horizon 2300ms ease-out both}
-.brand-intro:after{content:'';position:absolute;left:-30%;top:50%;width:160%;height:1px;background:linear-gradient(90deg,transparent,#43d48770,transparent);transform:scaleX(0);animation:brand-horizon-line 1600ms cubic-bezier(.16,1,.3,1) both}
 .brand-intro-lockup{position:relative;z-index:1;text-align:center;display:grid;justify-items:center;gap:17px;padding:24px;width:min(100%,420px);box-sizing:border-box}
 .brand-intro-prelude{font-size:10px;letter-spacing:2px;color:#b2c2b8;line-height:1.5;animation:brand-prelude 1600ms ease both}
 .brand-intro-orbit{position:relative;width:140px;height:140px;display:grid;place-items:center}
 .brand-intro-route{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
 .brand-intro-route circle{fill:none;stroke:#43d487;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;animation:brand-route-draw 1200ms 100ms cubic-bezier(.5,0,.15,1) both}
 .brand-intro-orbit>i{position:absolute;inset:6px;border:1px solid #43d48725;border-radius:50%;animation:brand-arrival-ring 1000ms 800ms ease-out both}
-.brand-intro-orbit>img{border-radius:22px;animation:brand-mark-arrive 800ms 600ms cubic-bezier(.16,1,.3,1) both}
+.brand-intro-orbit>img{border-radius:22px;animation:brand-mark-arrive 800ms 500ms cubic-bezier(.16,1,.3,1) both}
 .brand-intro-lockup>strong{font-size:30px;letter-spacing:2px;font-weight:800;line-height:1.2;animation:brand-name-reveal 700ms 950ms cubic-bezier(.16,1,.3,1) both}
 .brand-intro-lockup>strong>span{color:#43d487;margin-left:4px}
 .brand-intro-lockup>p{font-size:11px;letter-spacing:2.4px;margin:0;color:#e6ece8;animation:brand-tagline-reveal 600ms 1400ms cubic-bezier(.16,1,.3,1) both}
@@ -267,13 +266,12 @@ body[data-page="home"] .app-reminder-section{padding-block:26px}
 .brand-intro-services{font-size:9px;line-height:1.5;letter-spacing:1.5px;color:#a3b0a8;animation:brand-tagline-reveal 500ms 1700ms ease both}
 .brand-intro-services>i{font-style:normal;color:#43d487;padding-inline:9px}
 @keyframes brand-route-draw{from{stroke-dashoffset:1;opacity:.3}to{stroke-dashoffset:0;opacity:1}}
-@keyframes brand-mark-arrive{from{opacity:0;transform:translateX(-24px) scale(.84)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes brand-mark-arrive{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes brand-arrival-ring{from{opacity:0;transform:scale(.7)}35%{opacity:1}to{opacity:0;transform:scale(1.35)}}
 @keyframes brand-name-reveal{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes brand-tagline-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes brand-prelude{from{opacity:0;transform:translateY(5px)}35%,80%{opacity:1;transform:translateY(0)}to{opacity:.6;transform:translateY(0)}}
 @keyframes brand-horizon{from{opacity:0;transform:scale(.75)}65%{opacity:1;transform:scale(1)}to{opacity:.7;transform:scale(1.2)}}
-@keyframes brand-horizon-line{from{opacity:0;transform:scaleX(0)}45%{opacity:.8;transform:scaleX(1)}to{opacity:0;transform:scaleX(1)}}
 @media(max-width:767px){
  .campaign-hero[data-scene="0"]{--device-width:clamp(168px,56cqw,270px)}
  .campaign-hero[data-scene="1"]{--device-width:clamp(144px,50cqw,260px)}
